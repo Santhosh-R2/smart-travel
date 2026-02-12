@@ -1,0 +1,332 @@
+/* --- PROFESSIONAL COLOR PALETTE --- */
+:root {
+    --p-primary: #3b82f6;      /* Modern Blue */
+    --p-primary-soft: rgba(59, 130, 246, 0.1);
+    --p-dark: #0f172a;         /* Deep Slate */
+    --p-slate: #64748b;        /* Muted Text */
+    --p-bg: #f8fafc;           /* Light Background */
+    --p-white: #ffffff;
+    --p-border: #e2e8f0;       /* Soft Dividers */
+    --p-success: #10b981;      /* Emerald Green */
+    --p-error: #f43f5e;        /* Rose Red */
+}
+
+/* --- MAIN CONTAINER --- */
+.profile-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+    animation: profileFadeIn 0.8s ease-out;
+}
+
+@keyframes profileFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- LOADER STYLE --- */
+.profile-loader-container {
+    display: flex;
+    height: 70vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    color: var(--p-slate);
+    font-weight: 600;
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* --- CARD WRAPPER --- */
+.profile-card {
+    background: var(--p-white);
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    border: 1px solid var(--p-border);
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+/* Highlight the card when in Edit Mode */
+.profile-card.is-editing-mode {
+    box-shadow: 0 20px 50px rgba(59, 130, 246, 0.1);
+    border-color: var(--p-primary);
+}
+
+/* --- HEADER & COVER --- */
+.profile-cover {
+    height: 180px;
+    background: linear-gradient(135deg, var(--p-dark) 0%, #1e293b 50%, var(--p-primary) 100%);
+    position: relative;
+}
+
+.profile-avatar-wrapper {
+    margin-top: -75px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 5;
+}
+
+.profile-avatar-inner {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: white;
+    padding: 6px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.profile-avatar-inner img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--p-bg);
+}
+
+.avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Avatar Badge Animation */
+.avatar-edit-badge {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: var(--p-primary);
+    color: white;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 4px solid white;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.avatar-edit-badge:hover {
+    transform: scale(1.15) rotate(15deg);
+    background: var(--p-dark);
+}
+
+.avatar-edit-badge input { display: none; }
+
+.profile-intro {
+    text-align: center;
+    padding: 20px 0 30px;
+}
+
+.profile-intro h2 {
+    font-size: 2rem;
+    color: var(--p-dark);
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.profile-status-badge {
+    background: #ecfdf5;
+    color: var(--p-success);
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- FORM & INPUTS --- */
+.profile-form {
+    padding: 20px 50px 50px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--p-dark);
+    margin-bottom: 12px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid var(--p-border);
+    border-radius: 12px;
+    font-size: 1rem;
+    color: var(--p-dark);
+    background: #fcfcfc;
+    transition: 0.3s;
+}
+
+/* Locked (Read Only) State */
+.readonly-group input {
+    background: #f8fafc;
+    border-color: transparent;
+    color: var(--p-slate);
+    cursor: not-allowed;
+    font-weight: 500;
+}
+
+.form-group input:focus {
+    border-color: var(--p-primary);
+    background: white;
+    box-shadow: 0 0 0 4px var(--p-primary-soft);
+    outline: none;
+}
+
+/* --- INTERESTS SECTION --- */
+.interests-section {
+    margin-bottom: 40px;
+}
+
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--p-dark);
+    margin-bottom: 10px;
+}
+
+.section-desc {
+    font-size: 0.85rem;
+    color: var(--p-slate);
+    margin-bottom: 20px;
+}
+
+.interests-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.interest-pill {
+    padding: 10px 24px;
+    background: #f1f5f9;
+    border: 1px solid var(--p-border);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--p-dark);
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: capitalize;
+}
+
+.interest-pill.active {
+    background: var(--p-primary);
+    color: white;
+    border-color: var(--p-primary);
+    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
+}
+
+.interest-pill:hover:not(.locked-pill) {
+    border-color: var(--p-primary);
+    color: var(--p-primary);
+}
+
+.locked-pill {
+    cursor: default;
+    opacity: 0.8;
+}
+
+/* --- ACTION BUTTONS --- */
+.profile-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding-top: 35px;
+    border-top: 1px solid var(--p-border);
+}
+
+/* Generic Button Transitions */
+.btn-primary, .btn-secondary, .btn-edit-mode {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* "Edit Profile" Button (The Dark One) */
+.btn-edit-mode {
+    background: var(--p-dark);
+    color: white;
+    border: none;
+}
+.btn-edit-mode:hover {
+    background: #1e293b;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* "Save Changes" Button */
+.btn-primary {
+    background: var(--p-primary);
+    color: white;
+    border: none;
+}
+.btn-primary:hover:not(:disabled) {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+}
+
+/* "Cancel" Button */
+.btn-secondary {
+    background: white;
+    color: var(--p-dark);
+    border: 1px solid var(--p-border);
+}
+.btn-secondary:hover {
+    background: #fff1f2;
+    color: var(--p-error);
+    border-color: #fecaca;
+}
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 768px) {
+    .profile-container { margin: 0; }
+    .profile-card { border-radius: 0; border: none; }
+    .form-grid { grid-template-columns: 1fr; }
+    .profile-form { padding: 30px 20px; }
+    .profile-hero { height: 140px; }
+    .profile-avatar-inner { width: 120px; height: 120px; }
+}
+
+@media (max-width: 480px) {
+    .profile-actions { flex-direction: column; }
+    .btn-primary, .btn-secondary, .btn-edit-mode { width: 100%; justify-content: center; }
+}

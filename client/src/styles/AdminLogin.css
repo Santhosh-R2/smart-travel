@@ -1,0 +1,217 @@
+:root {
+    --admin-blue: #3b82f6;
+    --admin-dark: #020617;
+    --admin-slate: #1e293b;
+    --admin-accent: #00f2ff;
+}
+
+.admin-login-wrapper {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background: #ffffff;
+    font-family: 'Inter', sans-serif;
+}
+
+/* --- LEFT VISUAL PANEL --- */
+.admin-visual-panel {
+    flex: 1.2;
+    background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Radar/Scanning Animation */
+.admin-radar-container {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    opacity: 0.15;
+}
+
+.admin-radar-circle {
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--admin-blue);
+    border-radius: 50%;
+}
+
+.admin-radar-scanner {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: conic-gradient(from 0deg, var(--admin-blue), transparent 60%);
+    border-radius: 50%;
+    animation: radarRotate 4s linear infinite;
+}
+
+@keyframes radarRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.admin-panel-content {
+    z-index: 5;
+    text-align: center;
+}
+
+.admin-brand-logo {
+    font-size: 5.5rem;
+    font-weight: 900;
+    color: white;
+    margin: 0;
+    letter-spacing: -3px;
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+.admin-brand-logo span { color: var(--admin-blue); }
+
+.admin-status-badge {
+    background: rgba(0, 242, 255, 0.1);
+    color: var(--admin-accent);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(0, 242, 255, 0.2);
+    margin: 20px 0;
+}
+
+.admin-pulse {
+    width: 8px;
+    height: 8px;
+    background: var(--admin-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--admin-accent);
+    animation: pulseGlow 1.5s infinite;
+}
+
+@keyframes pulseGlow {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+
+.admin-panel-tagline {
+    color: #64748b;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+/* --- RIGHT FORM PANEL --- */
+.admin-form-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.admin-login-card {
+    width: 100%;
+    max-width: 420px;
+}
+
+.admin-header-box h2 {
+    font-size: 2.2rem;
+    color: var(--admin-dark);
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+
+.admin-underline {
+    height: 5px;
+    width: 50px;
+    background: var(--admin-blue);
+    margin-bottom: 40px;
+    border-radius: 10px;
+}
+
+.admin-field {
+    margin-bottom: 25px;
+}
+
+.admin-field label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.admin-field input {
+    width: 100%;
+    padding: 16px;
+    background: #f1f5f9;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: var(--admin-dark);
+    transition: 0.3s;
+}
+
+.admin-field input:focus {
+    background: white;
+    border-color: var(--admin-blue);
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+
+.admin-access-btn {
+    width: 100%;
+    padding: 18px;
+    background: var(--admin-dark);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.admin-access-btn:hover {
+    background: var(--admin-blue);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(59, 130, 246, 0.3);
+}
+
+.admin-security-note {
+    margin-top: 40px;
+    text-align: center;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 20px;
+}
+
+.admin-security-note p {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-bottom: 15px;
+}
+
+.admin-security-note span {
+    color: var(--admin-dark);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 0.3s;
+}
+
+.admin-security-note span:hover { opacity: 1; color: var(--admin-blue); }
+
+/* Mobile */
+@media (max-width: 992px) {
+    .admin-visual-panel { display: none; }
+}

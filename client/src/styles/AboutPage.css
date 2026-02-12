@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+:root {
+    --about-primary: #4A90E2;
+    --about-secondary: #0f172a;
+    --about-bg: #f8fafc;
+    --about-text: #334155;
+}
+
+.about-main-container {
+    font-family: 'Inter', sans-serif;
+    background-color: white;
+    color: var(--about-secondary);
+    overflow-x: hidden;
+}
+
+/* --- HERO SECTION --- */
+.about-hero-section {
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: white;
+    padding: 0 20px;
+}
+
+.about-hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.about-hero-title span {
+    color: var(--about-primary);
+}
+
+.about-hero-subtitle {
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto;
+    opacity: 0.8;
+}
+
+/* --- ZIG ZAG MISSION SECTION --- */
+.about-mission-section, .about-impact-section {
+    padding: 100px 10%;
+}
+
+.about-mission-row {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+}
+
+.about-mission-row.about-reverse {
+    flex-direction: row-reverse;
+}
+
+.about-mission-image {
+    flex: 1;
+}
+
+.about-mission-image img {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 30px 60px -12px rgba(0,0,0,0.15);
+}
+
+.about-mission-text {
+    flex: 1;
+}
+
+.about-badge {
+    color: var(--about-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+.about-section-h2 {
+    font-size: 2.5rem;
+    margin: 15px 0;
+    color: var(--about-secondary);
+}
+
+.about-section-p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--about-text);
+    margin-bottom: 20px;
+}
+
+/* --- PILLARS GRID --- */
+.about-pillars-section {
+    padding: 100px 10%;
+    background-color: var(--about-bg);
+}
+
+.about-pillars-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.about-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.about-pillar-card {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    transition: 0.3s;
+    border: 1px solid #e2e8f0;
+}
+
+.about-pillar-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+}
+
+.about-pillar-icon {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #e2e8f0;
+    margin-bottom: 20px;
+}
+
+.about-pillar-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--about-secondary);
+}
+
+/* --- STATS BOX --- */
+.about-stats-box {
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.about-stat-item h4 {
+    font-size: 2rem;
+    color: var(--about-primary);
+    margin: 0;
+}
+
+.about-stat-item span {
+    font-size: 0.9rem;
+    color: var(--about-gray);
+    font-weight: 600;
+}
+
+/* --- ANIMATIONS --- */
+.about-fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease-out;
+}
+
+.about-appear {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 992px) {
+    .about-mission-row, .about-mission-row.about-reverse {
+        flex-direction: column;
+        text-align: center;
+    }
+    .about-hero-title { font-size: 2.5rem; }
+    .about-stats-box { justify-content: center; }
+}

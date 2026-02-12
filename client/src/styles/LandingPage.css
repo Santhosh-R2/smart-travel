@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+:root {
+    --landing-primary: #4A90E2;
+    --landing-dark: #0f172a;
+    --landing-gray: #64748b;
+    --landing-light: #f8fafc;
+}
+
+.landing-page-container {
+    font-family: 'Poppins', sans-serif;
+    color: var(--landing-dark);
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* --- HERO SECTION --- */
+.landing-hero-section {
+    position: relative;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: url('https://images.unsplash.com/photo-1488085061387-422e29b40080?q=80&w=2000') no-repeat center center/cover;
+}
+
+.landing-hero-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.55); /* Dark overlay for readability */
+    z-index: 1;
+}
+
+.landing-hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    max-width: 900px;
+    padding: 0 20px;
+}
+
+.landing-hero-title {
+    font-size: 4.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+/* Repeated Text Animation */
+.landing-text-animate {
+    color: var(--landing-primary);
+    display: inline-block;
+    animation: landingFloat 3s ease-in-out infinite;
+}
+
+@keyframes landingFloat {
+    0%, 100% { transform: translateY(0); text-shadow: 0 0 10px rgba(74, 144, 226, 0.2); }
+    50% { transform: translateY(-15px); color: #87b9f3; }
+}
+
+.landing-hero-subtitle {
+    font-size: 1.3rem;
+    font-weight: 300;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+.landing-hero-btn {
+    padding: 18px 45px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: var(--landing-primary);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 10px 20px rgba(74, 144, 226, 0.3);
+}
+
+.landing-hero-btn:hover {
+    transform: translateY(-3px);
+    background: #357ABD;
+}
+
+/* --- ZIG-ZAG FEATURES --- */
+.landing-features-section {
+    padding: 100px 8%;
+    background-color: white;
+}
+
+.landing-zigzag-row {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    margin-bottom: 150px;
+    transition: 0.5s;
+}
+
+/* PROFESSIONAL ZIG-ZAG LOGIC: Flip every second row */
+.landing-zigzag-row:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.landing-zigzag-column {
+    flex: 1;
+}
+
+.landing-image-wrapper img {
+    width: 100%;
+    border-radius: 30px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    transition: 0.4s;
+}
+
+.landing-image-wrapper img:hover {
+    transform: scale(1.02);
+}
+
+.landing-text-content {
+    padding: 20px;
+}
+
+.landing-badge {
+    background: #e0f2fe;
+    color: var(--landing-primary);
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.landing-feature-h2 {
+    font-size: 2.8rem;
+    margin: 20px 0;
+    color: var(--landing-dark);
+    line-height: 1.2;
+}
+
+.landing-feature-p {
+    font-size: 1.15rem;
+    color: var(--landing-gray);
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.landing-learn-more {
+    background: none;
+    border: 2px solid var(--landing-primary);
+    color: var(--landing-primary);
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.landing-learn-more:hover {
+    background: var(--landing-primary);
+    color: white;
+}
+
+/* --- SCROLL ANIMATIONS --- */
+.landing-fade-in {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1);
+}
+
+.landing-appear {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- FOOTER CTA --- */
+.landing-cta-footer {
+    background: var(--landing-dark);
+    color: white;
+    padding: 100px 20px;
+    text-align: center;
+}
+
+.landing-footer-h2 { font-size: 3rem; margin-bottom: 15px; }
+.landing-footer-p { font-size: 1.2rem; opacity: 0.8; margin-bottom: 40px; }
+
+.landing-footer-btn {
+    background: white;
+    color: var(--landing-dark);
+    padding: 18px 50px;
+    border-radius: 50px;
+    border: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 992px) {
+    .landing-hero-title { font-size: 3rem; }
+    .landing-zigzag-row, .landing-zigzag-row:nth-child(even) {
+        flex-direction: column;
+        gap: 40px;
+        text-align: center;
+    }
+    .landing-feature-h2 { font-size: 2.2rem; }
+}
