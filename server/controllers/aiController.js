@@ -2,7 +2,6 @@ const axios = require('axios');
 const ErrorResponse = require('../utils/errorResponse');
 const aiService = require('../services/aiService');
 
-// @desc    Generate Tourist Places (Free API: OSM + Wikipedia)
 exports.getTouristPlaces = async (req, res, next) => {
     try {
         const { city } = req.body;
@@ -11,10 +10,9 @@ exports.getTouristPlaces = async (req, res, next) => {
             return next(new ErrorResponse('Please provide a city name', 400));
         }
 
-        // 1. Geocode City using OpenStreetMap (Nominatim)
         const geoUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}`;
         const geoRes = await axios.get(geoUrl, {
-            headers: { 'User-Agent': 'SmartTravelApp/1.0' } // Required by OSM
+            headers: { 'User-Agent': 'SmartTravelApp/1.0' } 
         });
 
         if (!geoRes.data || geoRes.data.length === 0) {
@@ -22,22 +20,19 @@ exports.getTouristPlaces = async (req, res, next) => {
         }
 
         const { lat, lon } = geoRes.data[0];
-
-        // 2. Fetch Places using Wikipedia API (Geosearch)
-        // We use a generator to get pages near the coordinates, and props to get images and extracts
         const wikiUrl = 'https://en.wikipedia.org/w/api.php';
         const wikiParams = {
             action: 'query',
             generator: 'geosearch',
             ggscoord: `${lat}|${lon}`,
-            ggsradius: '10000', // 10km radius
+            ggsradius: '10000', 
             ggslimit: '20',
             prop: 'pageimages|coordinates|extracts',
             piprop: 'thumbnail',
-            pithumbsize: '600', // Medium size image for list/map
+            pithumbsize: '600',
             exintro: 1,
             explaintext: 1,
-            exsentences: 3, // Short description
+            exsentences: 3,
             format: 'json',
             origin: '*'
         };
@@ -47,8 +42,6 @@ exports.getTouristPlaces = async (req, res, next) => {
             headers: { 'User-Agent': 'SmartTravelApp/1.0 (contact@example.com)' }
         });
         const pages = wikiRes.data?.query?.pages || {};
-
-        // Map data to our format
         const places = Object.values(pages).map(place => ({
             id: place.pageid,
             name: place.title,
@@ -57,8 +50,8 @@ exports.getTouristPlaces = async (req, res, next) => {
             category: 'Tourist Attraction',
             description: place.extract || 'No description available.',
             image: place.thumbnail ? place.thumbnail.source : null,
-            address: 'Location details available on map' // Wikipedia doesn't give address easily
-        })).filter(p => p.lat && p.lng); // Ensure we have coordinates
+            address: 'Location details available on map' 
+        })).filter(p => p.lat && p.lng);
 
         res.status(200).json({
             success: true,
@@ -74,17 +67,16 @@ exports.getTouristPlaces = async (req, res, next) => {
     }
 };
 
-// @desc    Fetch Place Photo (High Res from Wikipedia)
 exports.fetchDetails = async (req, res, next) => {
     try {
-        const { xid } = req.params; // This will be the Wikipedia Page ID
+        const { xid } = req.params; 
 
         const wikiUrl = 'https://en.wikipedia.org/w/api.php';
         const params = {
             action: 'query',
             prop: 'pageimages',
             pageids: xid,
-            pithumbsize: '1000', // High res
+            pithumbsize: '1000',
             format: 'json',
             origin: '*'
         };
@@ -107,7 +99,6 @@ exports.fetchDetails = async (req, res, next) => {
     }
 };
 
-// @desc    Estimate Trip Cost (AI)
 exports.estimateTripCost = async (req, res, next) => {
     try {
         const { startLocation, destination, mode, passengers, date, distance } = req.body;
@@ -116,7 +107,6 @@ exports.estimateTripCost = async (req, res, next) => {
             return next(new ErrorResponse('Please provide all trip details', 400));
         }
 
-        // Call the service
         const estimate = await aiService.calculateTravelBudget({
             startLocation,
             destination,
@@ -124,7 +114,7 @@ exports.estimateTripCost = async (req, res, next) => {
             passengers,
             date,
             distance,
-            preferences: req.body.preferences // Pass preferences
+            preferences: req.body.preferences 
         });
 
         res.status(200).json({

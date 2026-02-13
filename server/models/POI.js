@@ -8,22 +8,21 @@ const poiSchema = new mongoose.Schema({
         enum: ['museum', 'park', 'restaurant', 'landmark', 'mall'], 
         required: true 
     },
-    // Geospatial data for Map integration
     location: {
         type: { type: String, default: 'Point' },
         coordinates: {
-            type: [Number], // [longitude, latitude]
-            index: '2dsphere' // Critical for proximity searches
+            type: [Number], 
+            index: '2dsphere' 
         },
         address: String
     },
-    averageTimeSpent: { type: Number, default: 60 }, // in minutes (for AI planning)
+    averageTimeSpent: { type: Number, default: 60 }, 
     openingHours: {
-        open: String, // e.g., "09:00"
-        close: String  // e.g., "18:00"
+        open: String, 
+        close: String  
     },
     rating: { type: Number, default: 0 },
-    costLevel: { type: Number, min: 1, max: 3 }, // 1=$, 2=$$, 3=$$$
+    costLevel: { type: Number, min: 1, max: 3 }, 
     imageUrl: String
 });
 

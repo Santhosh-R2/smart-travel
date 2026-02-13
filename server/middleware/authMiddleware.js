@@ -17,7 +17,6 @@ const protect = (req, res, next) => {
             });
         }
 
-        // Attach the full user object (with preferences and profile image) to the request
         req.user = user;
         next();
     })(req, res, next);

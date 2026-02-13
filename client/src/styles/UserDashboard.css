@@ -17,7 +17,6 @@
     font-family: 'Inter', sans-serif;
 }
 
-/* Header */
 .user-dash-header {
     display: flex;
     justify-content: space-between;
@@ -81,10 +80,9 @@
 .user-dash-stat-info h3 { font-size: 1.5rem; font-weight: 800; margin: 0; }
 .user-dash-stat-info span { font-size: 0.85rem; color: var(--ud-muted); }
 
-/* --- ANALYTICS SECTION (CHARTS) --- */
 .user-dash-analytics-row {
     display: grid;
-    grid-template-columns: 1fr 2fr; /* Doughnut smaller, Bar larger */
+    grid-template-columns: 1fr 2fr; 
     gap: 25px;
     margin-bottom: 40px;
 }
@@ -115,12 +113,11 @@
     justify-content: center;
 }
 
-/* Doughnut Center Text Logic */
 .doughnut-wrap { position: relative; }
 .doughnut-center-text {
     position: absolute;
     top: 50%; left: 50%;
-    transform: translate(-50%, -65%); /* Adjust vertically to center above legend */
+    transform: translate(-50%, -65%); 
     text-align: center;
     pointer-events: none;
 }
@@ -129,7 +126,6 @@
 
 .user-dash-no-data { text-align: center; color: var(--ud-muted); padding: 20px; }
 
-/* Upcoming Trips */
 .user-dash-section-title { font-size: 1.2rem; margin-bottom: 20px; font-weight: 800; color: var(--ud-text); }
 
 .user-dash-upcoming-list { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 10px; }
@@ -159,7 +155,6 @@
 .user-dash-meta { display: flex; flex-direction: column; font-size: 0.8rem; color: var(--ud-muted); gap: 2px; }
 .user-dash-view-btn { margin-left: auto; color: var(--ud-primary); font-size: 0.85rem; font-weight: 600; text-decoration: none; }
 
-/* Grid Cards */
 .user-dash-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -196,7 +191,6 @@
     font-size: 0.9rem; font-weight: 700; color: var(--ud-primary);
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
     .user-dash-stats-grid { grid-template-columns: 1fr 1fr; }
     .user-dash-analytics-row { grid-template-columns: 1fr; }

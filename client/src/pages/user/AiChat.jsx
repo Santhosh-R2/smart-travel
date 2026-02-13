@@ -11,19 +11,16 @@ const AiChat = () => {
     const [fetchingHistory, setFetchingHistory] = useState(true);
     const messagesEndRef = useRef(null);
 
-    // Optimized Scroll Function
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
-    // Auto-scroll whenever messages change OR loading state toggles
     useEffect(() => {
         if (!fetchingHistory) {
             scrollToBottom();
         }
     }, [messages, loading, fetchingHistory]);
 
-    // Load History on Mount
     useEffect(() => {
         const fetchHistory = async () => {
             try {
@@ -54,7 +51,7 @@ const AiChat = () => {
                 console.error("History fetch error", err);
                 setMessages([{ id: 'init-err', sender: 'ai', text: "Hello! I'm ready to help plan your trip." }]);
             } finally {
-                setFetchingHistory(false);
+                setTimeout(() => setFetchingHistory(false), 800);
             }
         };
         fetchHistory();
@@ -67,7 +64,7 @@ const AiChat = () => {
         const userMsg = { id: Date.now(), sender: 'user', text: input };
         setMessages(prev => [...prev, userMsg]);
         setInput('');
-        setLoading(true); // Start Loading
+        setLoading(true);
 
         try {
             const user = JSON.parse(localStorage.getItem('userInfo'));
@@ -88,14 +85,13 @@ const AiChat = () => {
             };
             setMessages(prev => [...prev, aiMsg]);
         } catch (err) {
-            console.error(err);
             setMessages(prev => [...prev, { 
                 id: Date.now() + 1, 
                 sender: 'ai', 
                 text: "I'm having trouble connecting to the travel database. Please check your connection." 
             }]);
         } finally {
-            setLoading(false); // Stop Loading
+            setLoading(false);
         }
     };
 
@@ -143,12 +139,14 @@ const AiChat = () => {
 
                 <div className="ai-messages-area">
                     {fetchingHistory ? (
-                        <div className="ai-loading-state">
-                            <Loader className="spin" size={32} />
-                            <p>Syncing travel memories...</p>
+                        <div className="ai-loading-container">
+                            <div className="ai-loading-state">
+                                <Loader className="spin" size={40} />
+                                <p>Syncing travel memories...</p>
+                            </div>
                         </div>
                     ) : (
-                        <>
+                        <div className="message-list">
                             {messages.map((msg) => (
                                 <div key={msg.id} className={`ai-message-row ${msg.sender}`}>
                                     <div className="message-avatar">
@@ -156,7 +154,6 @@ const AiChat = () => {
                                     </div>
 
                                     <div className="message-content-wrapper">
-                                        {/* 1. IMAGE FIRST */}
                                         {msg.image && (
                                             <div className="ai-media-container">
                                                 <img src={msg.image} alt="Location" loading="lazy" />
@@ -166,12 +163,10 @@ const AiChat = () => {
                                             </div>
                                         )}
 
-                                        {/* 2. TEXT BUBBLE */}
                                         <div className="message-bubble">
                                             <div style={{ whiteSpace: 'pre-line' }}>{msg.text}</div>
                                         </div>
 
-                                        {/* 3. CARDS / SUGGESTIONS */}
                                         {msg.suggestions && msg.suggestions.length > 0 && (
                                             <div className="ai-cards-grid">
                                                 {msg.suggestions.map((place, idx) => (
@@ -195,12 +190,9 @@ const AiChat = () => {
                                 </div>
                             ))}
 
-                            {/* CORRECT LOADING POSITION */}
                             {loading && (
                                 <div className="ai-message-row ai">
-                                    <div className="message-avatar">
-                                        <Bot size={22} />
-                                    </div>
+                                    <div className="message-avatar"><Bot size={22} /></div>
                                     <div className="message-content-wrapper">
                                         <div className="message-bubble loading-bubble">
                                             <div className="typing-indicator">
@@ -212,9 +204,9 @@ const AiChat = () => {
                                     </div>
                                 </div>
                             )}
-                        </>
+                            <div ref={messagesEndRef} />
+                        </div>
                     )}
-                    <div ref={messagesEndRef} />
                 </div>
 
                 <div className="ai-input-wrapper">

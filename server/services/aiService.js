@@ -14,7 +14,7 @@ exports.getTouristPlaces = async (city) => {
         url: `${BASE_URL}/search`,
         params: {
             near: city,
-            categories: '16000', // 16000 = Landmarks and Outdoors (Tourist Spots)
+            categories: '16000', 
             limit: '15',
             fields: 'fsq_id,name,geocodes,location,categories'
         },
@@ -26,9 +26,7 @@ exports.getTouristPlaces = async (city) => {
 
     const response = await axios.request(options);
 
-    // Format data for our frontend
     return {
-        // Use coordinates of the first result to center the map
         center: {
             lat: response.data.results[0]?.geocodes.main.latitude || 0,
             lng: response.data.results[0]?.geocodes.main.longitude || 0
@@ -44,9 +42,7 @@ exports.getTouristPlaces = async (city) => {
     };
 };
 
-/**
- * Fetch high-quality photos for a specific place
- */
+
 exports.getPlacePhotos = async (fsq_id) => {
     const options = {
         method: 'GET',
@@ -57,14 +53,11 @@ exports.getPlacePhotos = async (fsq_id) => {
 
     const response = await axios.request(options);
 
-    // Construct the full URL: prefix + size + suffix
     const photo = response.data[0];
     return photo ? `${photo.prefix}original${photo.suffix}` : null;
 };
 
-/**
- * Calculate Travel Budget using Gemini AI
- */
+
 const { spawn } = require('child_process');
 const path = require('path');
 
@@ -72,7 +65,6 @@ exports.calculateTravelBudget = (details) => {
     return new Promise((resolve, reject) => {
         const { startLocation, destination, mode, passengers, date, preferences, distance } = details;
 
-        // Convert preferences to script-friendly formats
         const includeAcc = preferences?.accommodation ? 'true' : 'false';
         const meals = preferences?.meals || { breakfast: true, lunch: true, dinner: true };
         const mealsMask = `${meals.breakfast ? 1 : 0},${meals.lunch ? 1 : 0},${meals.dinner ? 1 : 0}`;

@@ -7,7 +7,7 @@ import '../../styles/ProfilePage.css';
 const ProfilePage = () => {
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(true);
-    const [isEditing, setIsEditing] = useState(false); // NEW STATE: Toggle Edit Mode
+    const [isEditing, setIsEditing] = useState(false); 
     const [imagePreview, setImagePreview] = useState(null);
     
     const [profile, setProfile] = useState({
@@ -17,7 +17,6 @@ const ProfilePage = () => {
         interests: []
     });
 
-    // Function to load data from localStorage
     const loadUserData = () => {
         try {
             const storedUser = localStorage.getItem('userInfo');
@@ -43,7 +42,7 @@ const ProfilePage = () => {
     }, []);
 
     const handleImageChange = (e) => {
-        if (!isEditing) return; // Prevent change if not in edit mode
+        if (!isEditing) return; 
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
@@ -56,7 +55,7 @@ const ProfilePage = () => {
     };
 
     const toggleInterest = (interest) => {
-        if (!isEditing) return; // Prevent change if not in edit mode
+        if (!isEditing) return; 
         setProfile(prev => {
             const updated = prev.interests.includes(interest)
                 ? prev.interests.filter(i => i !== interest)
@@ -66,7 +65,7 @@ const ProfilePage = () => {
     };
 
     const handleCancel = () => {
-        loadUserData(); // Revert changes by re-loading from storage
+        loadUserData(); 
         setIsEditing(false);
     };
 
@@ -87,7 +86,7 @@ const ProfilePage = () => {
             if (response.data.success) {
                 toast.success("Profile Synchronized!");
                 localStorage.setItem('userInfo', JSON.stringify(response.data.data));
-                setIsEditing(false); // Lock fields again after success
+                setIsEditing(false); 
             }
         } catch (error) {
             toast.error(error.response?.data?.error || "Update Failed");

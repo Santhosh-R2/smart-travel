@@ -3,10 +3,10 @@ import '../../styles/LandingPage.css';
 import main from '../../assets/main.jpeg';
 import budget from '../../assets/budget.jpeg';
 import collaboration from '../../assets/team.jpeg';
+import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
     
-    // Intersection Observer for scroll animations
     useEffect(() => {
         const observers = document.querySelectorAll('.landing-fade-in');
         const appearOnScroll = new IntersectionObserver((entries, observer) => {
@@ -24,7 +24,6 @@ const LandingPage = () => {
     return (
         <div className="landing-page-container">
             
-            {/* HERO SECTION: Background Image + Animated Text */}
             <header className="landing-hero-section">
                 <div className="landing-hero-overlay"></div>
                 <div className="landing-hero-content landing-fade-in">
@@ -36,14 +35,12 @@ const LandingPage = () => {
                         The ultimate intelligent planner that optimizes your routes, 
                         manages your budget, and personalizes your journey.
                     </p>
-                    <button className="landing-hero-btn">Start Your Journey</button>
+                <Link to="/user-login"><button className="landing-hero-btn">Start Your Journey</button></Link>
                 </div>
             </header>
 
-            {/* ZIG-ZAG FEATURES SECTION */}
             <section className="landing-features-section">
                 
-                {/* Row 1: Image Left, Text Right */}
                 <div className="landing-zigzag-row landing-fade-in">
                     <div className="landing-zigzag-column">
                         <div className="landing-image-wrapper">
@@ -58,12 +55,11 @@ const LandingPage = () => {
                                 Our AI engine goes beyond simple maps. It calculates travel density, opening hours, 
                                 and your preferred pace to create a maximum utility itinerary.
                             </p>
-                            <button className="landing-learn-more">Explore Technology</button>
+                            <Link to="/user-login"><button className="landing-learn-more">Explore Technology</button></Link>
                         </div>
                     </div>
                 </div>
 
-                {/* Row 2: Text Left, Image Right (Auto-flipped via CSS) */}
                 <div className="landing-zigzag-row landing-fade-in">
                     <div className="landing-zigzag-column">
                         <div className="landing-image-wrapper">
@@ -78,12 +74,11 @@ const LandingPage = () => {
                                 Manage your expenses across multiple currencies. Get instant insights into 
                                 your spending patterns and stay within your financial limits.
                             </p>
-                            <button className="landing-learn-more">View Budget Tools</button>
+                            <Link to="/user-login"><button className="landing-learn-more">View Budget Tools</button></Link>
                         </div>
                     </div>
                 </div>
 
-                {/* Row 3: Image Left, Text Right */}
                 <div className="landing-zigzag-row landing-fade-in">
                     <div className="landing-zigzag-column">
                         <div className="landing-image-wrapper">
@@ -98,7 +93,7 @@ const LandingPage = () => {
                                 Planning with friends is now seamless. Share your itinerary, vote on 
                                 destinations, and sync calendars in real-time.
                             </p>
-                            <button className="landing-learn-more">Start Group Trip</button>
+                            <Link to="/user-login"><button className="landing-learn-more">Start Group Trip</button></Link>
                         </div>
                     </div>
                 </div>

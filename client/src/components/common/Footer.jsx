@@ -11,7 +11,6 @@ const Footer = () => {
                 <div className="footer-container">
                     <div className="footer-grid">
                         
-                        {/* Column 1: Brand Info */}
                         <div className="footer-column">
                             <div className="footer-logo">
                                 STP <span>AI</span>
@@ -28,7 +27,6 @@ const Footer = () => {
                             </div>
                         </div>
 
-                        {/* Column 2: Quick Navigation */}
                         <div className="footer-column">
                             <h4 className="footer-heading">Platform</h4>
                             <ul className="footer-links">
@@ -40,7 +38,6 @@ const Footer = () => {
                             </ul>
                         </div>
 
-                        {/* Column 3: Support & Legal */}
                         <div className="footer-column">
                             <h4 className="footer-heading">Support</h4>
                             <ul className="footer-links">
@@ -52,7 +49,6 @@ const Footer = () => {
                             </ul>
                         </div>
 
-                        {/* Column 4: Newsletter */}
                         <div className="footer-column">
                             <h4 className="footer-heading">Stay Updated</h4>
                             <p className="footer-newsletter-text">
@@ -72,7 +68,6 @@ const Footer = () => {
                 </div>
             </div>
 
-            {/* Bottom Copyright Section */}
             <div className="footer-bottom-bar">
                 <div className="footer-container footer-flex-bottom">
                     <p className="footer-copyright">

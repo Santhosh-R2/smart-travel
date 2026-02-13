@@ -14,7 +14,6 @@
     overflow-x: hidden;
 }
 
-/* --- HERO SECTION --- */
 .about-hero-section {
     height: 60vh;
     display: flex;
@@ -44,7 +43,6 @@
     opacity: 0.8;
 }
 
-/* --- ZIG ZAG MISSION SECTION --- */
 .about-mission-section, .about-impact-section {
     padding: 100px 10%;
 }
@@ -94,7 +92,6 @@
     margin-bottom: 20px;
 }
 
-/* --- PILLARS GRID --- */
 .about-pillars-section {
     padding: 100px 10%;
     background-color: var(--about-bg);
@@ -137,7 +134,6 @@
     color: var(--about-secondary);
 }
 
-/* --- STATS BOX --- */
 .about-stats-box {
     display: flex;
     gap: 40px;
@@ -156,7 +152,6 @@
     font-weight: 600;
 }
 
-/* --- ANIMATIONS --- */
 .about-fade-in {
     opacity: 0;
     transform: translateY(40px);
@@ -168,7 +163,6 @@
     transform: translateY(0);
 }
 
-/* --- RESPONSIVE --- */
 @media (max-width: 992px) {
     .about-mission-row, .about-mission-row.about-reverse {
         flex-direction: column;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify'; // Added ToastContainer here
+import { toast, ToastContainer } from 'react-toastify'; 
 import { MapPin, Calendar, CheckCircle, XCircle, PenTool, Edit3 } from 'lucide-react';
 import '../../styles/MyTrips.css';
 
@@ -40,24 +40,21 @@ const MyTrips = () => {
             const config = { headers: { Authorization: `Bearer ${token}` } };
             await axios.put(`http://localhost:5000/api/trips/${id}/status`, { status }, config);
             toast.success(`Trip marked as ${status}`);
-            fetchTrips(); // Refresh to show new status
+            fetchTrips();
         } catch (err) {
             toast.error("Failed to update status");
         }
     };
 
-    // LOGIC UPDATE: Pre-fill data if editing
     const openBlogModal = (trip) => {
         setSelectedTrip(trip);
         
-        // Check if user already wrote a blog
         if (trip.blog && trip.blog.title) {
             setBlogData({ 
                 title: trip.blog.title, 
                 content: trip.blog.content 
             });
         } else {
-            // Default for new blog
             setBlogData({ 
                 title: `My Trip to ${trip.destination.city}`, 
                 content: '' 
@@ -73,12 +70,11 @@ const MyTrips = () => {
             const token = localStorage.getItem('userToken');
             const config = { headers: { Authorization: `Bearer ${token}` } };
             
-            // This API endpoint handles both Create and Update (Upsert logic in backend)
             await axios.put(`http://localhost:5000/api/trips/${selectedTrip._id}/blog`, blogData, config);
             
             toast.success("Blog published successfully!");
             setBlogModalOpen(false);
-            fetchTrips(); // Refresh to see "Edit Blog" button state
+            fetchTrips(); 
         } catch (err) {
             toast.error("Failed to publish blog");
         } finally {
@@ -138,7 +134,6 @@ const MyTrips = () => {
                         </div>
 
                         <div className="trip-actions-bar">
-                            {/* ACTIONS FOR ACTIVE TRIPS */}
                             {(trip.status === 'planning' || trip.status === 'ongoing') && (
                                 <>
                                     <button className="trip-btn trip-btn-complete" onClick={() => handleStatusUpdate(trip._id, 'completed')}>
@@ -150,7 +145,6 @@ const MyTrips = () => {
                                 </>
                             )}
 
-                            {/* ACTIONS FOR COMPLETED TRIPS */}
                             {trip.status === 'completed' && (
                                 <button className="trip-btn trip-btn-blog" onClick={() => openBlogModal(trip)}>
                                     {trip.blog?.title ? (
@@ -161,7 +155,6 @@ const MyTrips = () => {
                                 </button>
                             )}
 
-                            {/* CANCELLED STATE */}
                             {trip.status === 'cancelled' && (
                                 <button className="trip-btn trip-btn-disabled" disabled>
                                     Trip Cancelled
@@ -172,7 +165,6 @@ const MyTrips = () => {
                 ))}
             </div>
 
-            {/* Blog Modal */}
             {blogModalOpen && (
                 <div className="trip-modal-overlay">
                     <div className="trip-blog-modal">

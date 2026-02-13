@@ -1,4 +1,3 @@
-/* --- VARIABLES --- */
 :root {
     --budget-primary: #6366f1;
     --budget-bg: #f8fafc;
@@ -10,7 +9,6 @@
     --budget-red: #ef4444;
 }
 
-/* --- LAYOUT --- */
 .budget-wrapper {
     padding: 30px 40px;
     background-color: var(--budget-bg);
@@ -27,7 +25,6 @@
     font-weight: 600;
 }
 
-/* --- HEADER --- */
 .budget-header-section {
     display: flex;
     justify-content: space-between;
@@ -61,7 +58,6 @@
     min-width: 250px;
 }
 
-/* --- STATUS BANNER --- */
 .budget-status-banner {
     display: flex;
     justify-content: space-between;
@@ -115,14 +111,12 @@
 .bg-green { background: #ecfdf5; color: var(--budget-green); }
 .bg-red { background: #fef2f2; color: var(--budget-red); }
 
-/* --- DASHBOARD LAYOUT --- */
 .budget-dashboard-layout {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
     gap: 25px;
 }
 
-/* Panels */
 .budget-history-panel, .budget-form-panel {
     background: var(--budget-card-bg);
     border-radius: 20px;
@@ -130,7 +124,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    height: 500px; /* Fixed height for scrolling */
+    height: 500px; 
 }
 
 .budget-panel-header {
@@ -145,14 +139,12 @@
 .budget-panel-header h3 { font-size: 1rem; font-weight: 700; color: var(--budget-text-dark); margin: 0; }
 .budget-count { background: #f1f5f9; padding: 4px 10px; border-radius: 10px; font-size: 0.75rem; color: var(--budget-text-muted); font-weight: 600; }
 
-/* Scroll Area */
 .budget-scroll-area {
     padding: 20px;
     overflow-y: auto;
     flex: 1;
 }
 
-/* Expense Rows */
 .budget-expense-row {
     display: flex;
     align-items: center;
@@ -182,7 +174,6 @@
     height: 100%; color: var(--budget-text-muted); gap: 10px;
 }
 
-/* --- ADD FORM --- */
 .budget-add-form { padding: 25px; display: flex; flex-direction: column; gap: 20px; }
 
 .budget-form-group label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--budget-text-muted); margin-bottom: 8px; }
@@ -210,7 +201,6 @@
 }
 .budget-submit-btn:hover { background: black; transform: translateY(-2px); }
 
-/* --- LOCKED STATE --- */
 .budget-locked-state {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     height: 100%; padding: 30px; text-align: center; background: #fef2f2; color: #991b1b;
@@ -219,7 +209,6 @@
 .budget-locked-state h4 { font-size: 1.2rem; margin-bottom: 8px; font-weight: 800; }
 .budget-locked-state p { font-size: 0.9rem; opacity: 0.8; line-height: 1.5; }
 
-/* Responsive */
 @media (max-width: 992px) {
     .budget-metrics-grid { grid-template-columns: 1fr; }
     .budget-dashboard-layout { grid-template-columns: 1fr; }

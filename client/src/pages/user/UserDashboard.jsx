@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import '../../styles/UserDashboard.css';
 
-// --- CHART.JS IMPORTS ---
 import {
     Chart as ChartJS,
     ArcElement,
@@ -20,7 +19,6 @@ import {
 } from 'chart.js';
 import { Doughnut, Bar } from 'react-chartjs-2';
 
-// Register Chart Components
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
 
 const UserDashboard = () => {
@@ -59,18 +57,7 @@ const UserDashboard = () => {
         }
     };
 
-    const handleDeleteTrip = async (id) => {
-        if (!window.confirm("Are you sure you want to delete this trip record?")) return;
-        try {
-            const token = localStorage.getItem('userToken');
-            const config = { headers: { Authorization: `Bearer ${token}` } };
-            await axios.delete(`http://localhost:5000/api/trips/${id}`, config);
-            fetchTrips();
-            toast.success("Trip record deleted.");
-        } catch (err) {
-            toast.error("Deletion failed.");
-        }
-    };
+   
 
     const getTransportIcon = (mode) => {
         switch (mode?.toLowerCase()) {
@@ -82,9 +69,6 @@ const UserDashboard = () => {
         }
     };
 
-    // --- CHART DATA PREPARATION ---
-
-    // 1. Doughnut Chart Data (Trip Status)
     const statusData = {
         labels: ['Completed', 'Planned', 'Cancelled'],
         datasets: [
@@ -98,13 +82,12 @@ const UserDashboard = () => {
     };
 
     const statusOptions = {
-        cutout: '70%', // Makes it a thin doughnut
+        cutout: '70%', 
         plugins: {
             legend: { position: 'bottom', labels: { usePointStyle: true, font: { size: 12 } } }
         }
     };
 
-    // 2. Bar Chart Data (Budget vs Actual)
     const recentTrips = trips.slice(0, 5);
     const budgetData = {
         labels: recentTrips.map(t => t.destination.city),
@@ -146,7 +129,6 @@ const UserDashboard = () => {
     return (
         <div className="user-dash-container">
             
-            {/* Header */}
             <div className="user-dash-header">
                 <div className="user-dash-welcome">
                     <h1>Hello, {user?.name?.split(' ')[0] || 'Traveler'} 👋</h1>
@@ -157,7 +139,6 @@ const UserDashboard = () => {
                 </Link>
             </div>
 
-            {/* Stats Grid */}
             <div className="user-dash-stats-grid">
                 <div className="user-dash-stat-card">
                     <div className="user-dash-icon-box purple"><MapPin size={24} /></div>
@@ -189,10 +170,8 @@ const UserDashboard = () => {
                 </div>
             </div>
 
-            {/* Analytics Row (CHARTS) */}
             <div className="user-dash-analytics-row">
                 
-                {/* Doughnut Chart */}
                 <div className="user-dash-chart-card">
                     <h3>Trip Status</h3>
                     <div className="user-dash-chart-wrapper doughnut-wrap">
@@ -210,7 +189,6 @@ const UserDashboard = () => {
                     </div>
                 </div>
 
-                {/* Bar Chart */}
                 <div className="user-dash-chart-card">
                     <h3>Budget vs Actual</h3>
                     <div className="user-dash-chart-wrapper">
@@ -223,7 +201,6 @@ const UserDashboard = () => {
                 </div>
             </div>
 
-            {/* Upcoming Trips */}
             <h2 className="user-dash-section-title">Next Adventures</h2>
             {upcomingTrips.length === 0 ? (
                 <div className="user-dash-empty-state">
@@ -251,25 +228,6 @@ const UserDashboard = () => {
                 </div>
             )}
 
-            {/* Recent Trips List */}
-            <h2 className="user-dash-section-title">Recent Itineraries</h2>
-            <div className="user-dash-grid">
-                {trips.map(trip => (
-                    <div key={trip._id} className="user-dash-card">
-                        <div className="user-dash-card-header">
-                            <div className={`user-dash-status-pill ${trip.status}`}>{trip.status}</div>
-                            <button className="user-dash-del-btn" onClick={() => handleDeleteTrip(trip._id)}><Trash2 size={16} /></button>
-                        </div>
-                        <div className="user-dash-card-body">
-                            <h3>{trip.title}</h3>
-                            <p><Calendar size={14} /> {new Date(trip.startDate).toLocaleDateString()}</p>
-                            <div className="user-dash-mini-budget">
-                                <span>Est: {trip.budget.currency} {trip.budget.totalCost.toLocaleString()}</span>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
         </div>
     );
 };

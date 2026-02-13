@@ -4,9 +4,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 
-// Helper: Create JWT Token
 const sendTokenResponse = (user, statusCode, res) => {
-    // Include tokenVersion in payload to support invalidation
     const payload = {
         id: user._id,
         v: user.tokenVersion || 0
@@ -30,18 +28,15 @@ const sendTokenResponse = (user, statusCode, res) => {
     });
 };
 
-// @desc    Register traveler
-// @route   POST /api/auth/register
 exports.register = async (req, res, next) => {
     try {
         const { name, email, password, profileImage, preferences } = req.body;
 
-        // profileImage here is the Base64 string from React
         const user = await User.create({
             name,
             email,
             password,
-            profileImage, // Stored as long string
+            profileImage,
             preferences
         });
 
@@ -51,9 +46,6 @@ exports.register = async (req, res, next) => {
     }
 };
 
-// @desc    Traveler Login
-// @desc    Traveler Login
-// @route   POST /api/auth/login
 exports.login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -67,16 +59,13 @@ exports.login = async (req, res, next) => {
             return next(new ErrorResponse('Invalid credentials', 401));
         }
 
-        // Check for 2FA
         if (user.isTwoFactorEnabled) {
-            // Generate 6-digit OTP
             const otp = Math.floor(100000 + Math.random() * 900000).toString();
             user.twoFactorCode = otp;
-            user.twoFactorCodeExpires = Date.now() + 10 * 60 * 1000; // 10 mins
+            user.twoFactorCodeExpires = Date.now() + 10 * 60 * 1000; 
 
             await user.save();
 
-            // Send Email
             try {
                 const transporter = nodemailer.createTransport({
                     service: 'Gmail',
@@ -109,8 +98,6 @@ exports.login = async (req, res, next) => {
     }
 };
 
-// @desc    Verify 2FA OTP
-// @route   POST /api/auth/verify2fa
 exports.verifyTwoFactor = async (req, res, next) => {
     const { email, otp } = req.body;
 
@@ -125,7 +112,6 @@ exports.verifyTwoFactor = async (req, res, next) => {
             return next(new ErrorResponse('Invalid or expired OTP', 400));
         }
 
-        // Clear OTP
         user.twoFactorCode = undefined;
         user.twoFactorCodeExpires = undefined;
         await user.save();
@@ -136,8 +122,6 @@ exports.verifyTwoFactor = async (req, res, next) => {
     }
 };
 
-// @desc    Toggle 2FA
-// @route   PUT /api/auth/toggle2fa
 exports.toggleTwoFactor = async (req, res, next) => {
     try {
         const user = await User.findById(req.user.id);
@@ -153,8 +137,6 @@ exports.toggleTwoFactor = async (req, res, next) => {
     }
 };
 
-// @desc    Change Password
-// @route   PUT /api/auth/changepassword
 exports.changePassword = async (req, res, next) => {
     try {
         const { currentPassword, newPassword } = req.body;
@@ -173,12 +155,10 @@ exports.changePassword = async (req, res, next) => {
     }
 };
 
-// @desc    Logout All Devices
-// @route   POST /api/auth/logoutall
 exports.logoutAllDevices = async (req, res, next) => {
     try {
         const user = await User.findById(req.user.id);
-        user.tokenVersion += 1; // Invalidate all previous tokens
+        user.tokenVersion += 1; 
         await user.save();
 
         res.status(200).json({ success: true, data: 'Logged out from all devices' });
@@ -187,29 +167,21 @@ exports.logoutAllDevices = async (req, res, next) => {
     }
 };
 
-// @desc    Admin Login (Separate API)
-// @route   POST /api/auth/admin/login
-// @desc    Admin Login (Separate API with Master Admin check)
-// @route   POST /api/auth/admin/login
 exports.adminLogin = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
-        // 1. Validation
         if (!email || !password) {
             return next(new ErrorResponse('Please provide admin email and security key', 400));
         }
 
-        // 2. Check for Master Admin (from .env)
         const MASTER_EMAIL = process.env.ADMIN_EMAIL;
         const MASTER_PASS = process.env.ADMIN_PASSWORD;
 
         if (email === MASTER_EMAIL && password === MASTER_PASS) {
-            // Find or Create the Master Admin in DB to get an ID for the token
             let admin = await User.findOne({ email: MASTER_EMAIL });
 
             if (!admin) {
-                // Auto-create Master Admin if not in DB
                 admin = await User.create({
                     name: 'Master Admin',
                     email: MASTER_EMAIL,
@@ -220,21 +192,17 @@ exports.adminLogin = async (req, res, next) => {
             return sendTokenResponse(admin, 200, res);
         }
 
-        // 3. Check for Database Admin
-        // Find user by email AND explicitly check for the 'admin' role
         const user = await User.findOne({ email, role: 'admin' }).select('+password');
 
         if (!user) {
             return next(new ErrorResponse('Access Denied. Admin account not found.', 401));
         }
 
-        // 4. Verify Password for DB Admin
         const isMatch = await user.matchPassword(password);
         if (!isMatch) {
             return next(new ErrorResponse('Unauthorized Access. Invalid credentials.', 401));
         }
 
-        // 5. Success
         sendTokenResponse(user, 200, res);
 
     } catch (err) {
@@ -242,14 +210,12 @@ exports.adminLogin = async (req, res, next) => {
     }
 };
 
-// @desc    Update Profile (Includes Base64 Image update)
-// @route   PUT /api/auth/updateprofile
 exports.updateProfile = async (req, res, next) => {
     try {
         const fieldsToUpdate = {
             name: req.body.name,
             email: req.body.email,
-            profileImage: req.body.profileImage, // Base64 string
+            profileImage: req.body.profileImage, 
             preferences: req.body.preferences
         };
 
@@ -264,8 +230,6 @@ exports.updateProfile = async (req, res, next) => {
     }
 };
 
-// @desc    Forgot Password - Send OTP Email
-// @route   POST /api/auth/forgotpassword
 exports.forgotPassword = async (req, res, next) => {
     try {
         const user = await User.findOne({ email: req.body.email });
@@ -274,15 +238,12 @@ exports.forgotPassword = async (req, res, next) => {
             return next(new ErrorResponse('There is no user with that email', 404));
         }
 
-        // Generate 6-digit OTP
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-        // Save OTP to DB (Expires in 10 mins)
         user.otpCode = otp;
         user.otpExpire = Date.now() + 10 * 60 * 1000;
         await user.save();
 
-        // Create Transporter (Use Gmail or SendGrid)
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
@@ -315,8 +276,6 @@ exports.forgotPassword = async (req, res, next) => {
     }
 };
 
-// @desc    Reset Password using OTP
-// @route   PUT /api/auth/resetpassword
 exports.resetPassword = async (req, res, next) => {
     try {
         const { email, otp, newPassword } = req.body;
@@ -331,7 +290,6 @@ exports.resetPassword = async (req, res, next) => {
             return next(new ErrorResponse('Invalid or expired OTP', 400));
         }
 
-        // Set new password
         user.password = newPassword;
         user.otpCode = undefined;
         user.otpExpire = undefined;

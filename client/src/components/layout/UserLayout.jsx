@@ -14,7 +14,6 @@ const UserLayout = ({ children }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
-    // Get User Data from LocalStorage
     const user = JSON.parse(localStorage.getItem('userInfo')) || {
         name: "Alex Johnson",
         profileImage: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100"
@@ -37,14 +36,12 @@ const UserLayout = ({ children }) => {
 
     return (
         <div className="stp-wrapper">
-            {/* --- SIDEBAR --- */}
             <aside className={`stp-sidebar ${isCollapsed ? 'collapsed' : ''}`}>
                 <div className="sidebar-header">
                     <div className="sidebar-brand">
                         <div className="brand-icon">S</div>
                         {!isCollapsed && <span className="brand-name">STP <span>AI</span></span>}
                     </div>
-                    {/* TOGGLE ICON INSIDE SIDEBAR */}
                     <button className="sidebar-toggle" onClick={() => setIsCollapsed(!isCollapsed)}>
                         {isCollapsed ? <Menu size={20} /> : <ChevronLeft size={20} />}
                     </button>
@@ -71,16 +68,13 @@ const UserLayout = ({ children }) => {
                 </div>
             </aside>
 
-            {/* --- MAIN SECTION --- */}
             <div className="stp-main">
-                {/* --- FIXED NAVBAR --- */}
                 <header className="stp-navbar">
                     <div className="nav-breadcrumb">
                         <span>Explorer</span> <ChevronRight size={14} />
                         <span className="active-page">{navItems.find(n => n.path === location.pathname)?.name || 'Dashboard'}</span>
                     </div>
 
-                    {/* USER PROFILE */}
                     <div className="nav-user-profile" onClick={() => navigate('/profile')}>
                         <div className="user-details">
                             <span className="user-name">{user.name}</span>
@@ -93,13 +87,11 @@ const UserLayout = ({ children }) => {
                     </div>
                 </header>
 
-                {/* --- SCROLLABLE CONTENT AREA --- */}
                 <main className="stp-content">
                     {children}
                 </main>
             </div>
 
-            {/* --- LOGOUT MODAL --- */}
             {isLogoutModalOpen && (
                 <div className="modal-overlay">
                     <div className="modal-card">

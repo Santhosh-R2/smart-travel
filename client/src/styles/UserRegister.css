@@ -1,8 +1,8 @@
 :root {
-    --reg-primary: #4A90E2;
-    --reg-dark: #0f172a;
-    --reg-gray: #64748b;
-    --reg-white: #ffffff;
+    --brand-primary: #6366f1;
+    --brand-dark: #0f172a;
+    --brand-gray: #64748b;
+    --brand-light: #f8fafc;
 }
 
 .register-main-wrapper {
@@ -18,18 +18,17 @@
 .register-container {
     display: flex;
     width: 100%;
-    max-width: 1100px;
+    max-width: 1150px;
     background: white;
-    border-radius: 30px;
+    border-radius: 32px;
     overflow: hidden;
-    box-shadow: 0 40px 100px rgba(0,0,0,0.1);
-    animation: zoomIn 0.8s ease-out;
+    box-shadow: 0 40px 100px -20px rgba(0,0,0,0.15);
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- LEFT PANEL --- */
 .register-info-panel {
     flex: 1;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
     padding: 60px;
     color: white;
     display: flex;
@@ -37,117 +36,113 @@
     justify-content: center;
 }
 
-.register-logo { font-size: 2.5rem; font-weight: 900; margin-bottom: 30px; }
-.register-logo span { color: var(--reg-primary); }
-
-.register-branding h2 { font-size: 2rem; margin-bottom: 15px; }
-.register-branding p { color: #94a3b8; font-size: 1.1rem; margin-bottom: 40px; }
-
-.r-feature {
-    margin-bottom: 20px;
-    font-weight: 600;
-    display: flex;
+.brand-badge {
+    background: rgba(255, 255, 255, 0.1);
+    display: inline-flex;
     align-items: center;
-    gap: 15px;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
-.r-feature span { color: var(--reg-primary); }
 
-/* --- RIGHT PANEL --- */
+.register-logo { font-size: 2.8rem; font-weight: 900; margin-bottom: 20px; }
+.register-logo span { color: var(--brand-primary); }
+.register-info-panel h2 { font-size: 1.8rem; line-height: 1.3; opacity: 0.9; margin-bottom: 40px; }
+
+.r-feat { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; font-weight: 500; color: #cbd5e1; }
+.r-feat svg { color: var(--brand-primary); }
+
 .register-form-panel {
-    flex: 1.5;
-    padding: 50px;
+    flex: 1.4;
+    padding: 60px;
 }
 
-.register-header h3 { font-size: 2rem; color: var(--reg-dark); margin-bottom: 5px; }
-.register-header p { color: var(--reg-gray); margin-bottom: 30px; }
+.register-header h3 { font-size: 2.2rem; color: var(--brand-dark); font-weight: 800; letter-spacing: -1px; }
+.register-header p { color: var(--brand-gray); margin-bottom: 40px; }
 
-/* Avatar Base64 Logic */
 .register-avatar-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
 .avatar-preview {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    background: #f1f5f9;
+    width: 100px;
+    height: 100px;
+    border-radius: 30px;
+    background: var(--brand-light);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
-    border: 3px dashed var(--reg-primary);
+    border: 2px dashed #cbd5e1;
+    transition: 0.3s;
 }
 
+.avatar-preview.empty:hover { border-color: var(--brand-primary); background: #eef2ff; }
 .avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
-.avatar-preview input {
-    position: absolute;
-    width: 100%; height: 100%;
-    opacity: 0;
-    cursor: pointer;
-}
+.avatar-preview input { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
 
-.register-avatar-section label { font-size: 0.85rem; font-weight: 700; color: var(--reg-primary); margin-top: 10px; }
+.register-avatar-section label { font-size: 0.85rem; font-weight: 700; color: var(--brand-primary); margin-top: 12px; cursor: pointer; }
 
 /* Grid Layout */
-.register-row { display: flex; gap: 20px; margin-bottom: 20px; }
-.register-group { flex: 1; display: flex; flex-direction: column; }
-
-.register-group label { font-size: 0.85rem; font-weight: 700; color: var(--reg-dark); margin-bottom: 8px; }
-.register-group input {
-    padding: 12px 15px;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    outline: none;
-    transition: 0.3s;
+.register-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
 }
-.register-group input:focus { border-color: var(--reg-primary); box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.1); }
 
-/* Interest Chips */
-.interests-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-.interest-chip {
-    padding: 8px 20px;
-    background: #f1f5f9;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    cursor: pointer;
-    font-weight: 600;
-    transition: 0.3s;
-    text-transform: capitalize;
-}
-.interest-chip.active { background: var(--reg-primary); color: white; }
+.register-group label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--brand-dark); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-.register-submit-btn {
+.input-icon-box { position: relative; display: flex; align-items: center; }
+.i-icon { position: absolute; left: 16px; color: #94a3b8; }
+
+.input-icon-box input {
     width: 100%;
-    padding: 16px;
-    background: var(--reg-dark);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 20px;
+    padding: 14px 16px 14px 48px;
+    background: var(--brand-light);
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    font-size: 0.95rem;
     transition: 0.3s;
 }
-.register-interests label{
-    font-size: 0.85rem; font-weight: 700; color: var(--reg-dark);
+
+.input-icon-box input:focus { border-color: var(--brand-primary); background: white; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); outline: none; }
+
+.eye-btn {
+    position: absolute; right: 12px; background: none; border: none; color: #94a3b8; cursor: pointer; padding: 5px; display: flex;
 }
-.register-submit-btn:hover { background: var(--reg-primary); transform: translateY(-2px); }
+.eye-btn:hover { color: var(--brand-primary); }
 
-.register-footer-text { text-align: center; margin-top: 25px; color: var(--reg-gray); }
-.register-footer-text a { color: var(--reg-primary); font-weight: 700; text-decoration: none; }
+.interests-flex { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.chip {
+    padding: 8px 20px; background: var(--brand-light); border-radius: 50px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.3s; color: var(--brand-gray);
+}
+.chip.active { background: var(--brand-primary); color: white; transform: scale(1.05); }
 
-/* --- ANIMATIONS --- */
-@keyframes zoomIn {
-    from { opacity: 0; transform: scale(0.95) translateY(20px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
+.register-btn {
+    width: 100%; padding: 16px; background: var(--brand-dark); color: white; border: none; border-radius: 16px; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-top: 30px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s;
+}
+.register-btn:hover { background: var(--brand-primary); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2); }
+.register-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.register-link { text-align: center; margin-top: 25px; font-size: 0.95rem; color: var(--brand-gray); }
+.register-link a { color: var(--brand-primary); font-weight: 700; text-decoration: none; }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 992px) {
     .register-container { flex-direction: column; }
     .register-info-panel { display: none; }
+    .register-grid { grid-template-columns: 1fr; }
 }

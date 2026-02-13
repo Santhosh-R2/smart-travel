@@ -1,17 +1,15 @@
-/* --- PROFESSIONAL COLOR PALETTE --- */
 :root {
-    --p-primary: #3b82f6;      /* Modern Blue */
+    --p-primary: #3b82f6;      
     --p-primary-soft: rgba(59, 130, 246, 0.1);
-    --p-dark: #0f172a;         /* Deep Slate */
-    --p-slate: #64748b;        /* Muted Text */
-    --p-bg: #f8fafc;           /* Light Background */
+    --p-dark: #0f172a;         
+    --p-slate: #64748b;        
+    --p-bg: #f8fafc;          
     --p-white: #ffffff;
-    --p-border: #e2e8f0;       /* Soft Dividers */
-    --p-success: #10b981;      /* Emerald Green */
-    --p-error: #f43f5e;        /* Rose Red */
+    --p-border: #e2e8f0;      
+    --p-success: #10b981;      
+    --p-error: #f43f5e;      
 }
 
-/* --- MAIN CONTAINER --- */
 .profile-container {
     max-width: 900px;
     margin: 40px auto;
@@ -24,7 +22,6 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- LOADER STYLE --- */
 .profile-loader-container {
     display: flex;
     height: 70vh;
@@ -45,7 +42,6 @@
     to { transform: rotate(360deg); }
 }
 
-/* --- CARD WRAPPER --- */
 .profile-card {
     background: var(--p-white);
     border-radius: 24px;
@@ -55,13 +51,11 @@
     transition: box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
-/* Highlight the card when in Edit Mode */
 .profile-card.is-editing-mode {
     box-shadow: 0 20px 50px rgba(59, 130, 246, 0.1);
     border-color: var(--p-primary);
 }
 
-/* --- HEADER & COVER --- */
 .profile-cover {
     height: 180px;
     background: linear-gradient(135deg, var(--p-dark) 0%, #1e293b 50%, var(--p-primary) 100%);
@@ -104,7 +98,6 @@
     justify-content: center;
 }
 
-/* Avatar Badge Animation */
 .avatar-edit-badge {
     position: absolute;
     bottom: 5px;
@@ -152,7 +145,6 @@
     letter-spacing: 1px;
 }
 
-/* --- FORM & INPUTS --- */
 .profile-form {
     padding: 20px 50px 50px;
 }
@@ -185,7 +177,6 @@
     transition: 0.3s;
 }
 
-/* Locked (Read Only) State */
 .readonly-group input {
     background: #f8fafc;
     border-color: transparent;
@@ -258,7 +249,6 @@
     opacity: 0.8;
 }
 
-/* --- ACTION BUTTONS --- */
 .profile-actions {
     display: flex;
     justify-content: flex-end;
@@ -267,7 +257,6 @@
     border-top: 1px solid var(--p-border);
 }
 
-/* Generic Button Transitions */
 .btn-primary, .btn-secondary, .btn-edit-mode {
     display: flex;
     align-items: center;
@@ -280,7 +269,6 @@
     transition: 0.3s;
 }
 
-/* "Edit Profile" Button (The Dark One) */
 .btn-edit-mode {
     background: var(--p-dark);
     color: white;
@@ -292,7 +280,6 @@
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-/* "Save Changes" Button */
 .btn-primary {
     background: var(--p-primary);
     color: white;
@@ -304,7 +291,6 @@
     box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
 }
 
-/* "Cancel" Button */
 .btn-secondary {
     background: white;
     color: var(--p-dark);
@@ -316,7 +302,6 @@
     border-color: #fecaca;
 }
 
-/* --- RESPONSIVE DESIGN --- */
 @media (max-width: 768px) {
     .profile-container { margin: 0; }
     .profile-card { border-radius: 0; border: none; }

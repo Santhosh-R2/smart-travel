@@ -13,7 +13,6 @@ const AdminLayout = ({ children }) => {
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-    // Sidebar navigation specifically for Admin roles
     const adminNavItems = [
         { name: 'Admin Console', path: '/admin/dashboard', icon: <BarChart3 size={20} /> },
         { name: 'User Records', path: '/admin/users', icon: <Users size={20} /> },
@@ -30,7 +29,6 @@ const AdminLayout = ({ children }) => {
 
     return (
         <div className="admin-layout">
-            {/* --- ADMIN SIDEBAR --- */}
             <aside className={`admin-sidebar ${isSidebarCollapsed ? 'collapsed' : ''}`}>
                 <div className="admin-sidebar-header">
                     <div className="admin-logo">
@@ -68,7 +66,6 @@ const AdminLayout = ({ children }) => {
                 </div>
             </aside>
 
-            {/* --- ADMIN MAIN SECTION --- */}
             <div className="admin-main-wrapper">
                 <header className="admin-top-bar">
                     <div className="admin-breadcrumb">
@@ -94,7 +91,6 @@ const AdminLayout = ({ children }) => {
                 </main>
             </div>
 
-            {/* --- SECURE LOGOUT MODAL --- */}
             {isLogoutModalOpen && (
                 <div className="admin-modal-overlay">
                     <div className="admin-modal-card">

@@ -11,7 +11,6 @@ const Budgeting = () => {
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
 
-    // New Expense State
     const [newExpense, setNewExpense] = useState({
         description: '',
         amount: '',
@@ -20,7 +19,6 @@ const Budgeting = () => {
 
     const categories = ['Food', 'Transport', 'Accommodation', 'Fuel', 'Tickets', 'Miscellaneous'];
 
-    // 1. Fetch All Trips for Dropdown
     useEffect(() => {
         const fetchTrips = async () => {
             try {
@@ -31,7 +29,6 @@ const Budgeting = () => {
                 if (res.data.success) {
                     setTrips(res.data.data);
                     if (res.data.data.length > 0) {
-                        // Default to the first trip
                         setSelectedTripId(res.data.data[0]._id);
                     } else {
                         setLoading(false);
@@ -45,7 +42,6 @@ const Budgeting = () => {
         fetchTrips();
     }, []);
 
-    // 2. Fetch Selected Trip Details
     useEffect(() => {
         if (!selectedTripId) return;
         
@@ -66,11 +62,9 @@ const Budgeting = () => {
         fetchTripDetails();
     }, [selectedTripId]);
 
-    // 3. Handle Add Expense
     const handleAddExpense = async (e) => {
         e.preventDefault();
         
-        // Safety Check: Double check status before submitting
         if (trip.status !== 'planning') {
             toast.error("Expenses cannot be added to completed or cancelled trips.");
             return;
@@ -85,11 +79,9 @@ const Budgeting = () => {
             
             toast.success("Expense recorded successfully!");
             
-            // Refresh trip data to update totals
             const res = await axios.get(`http://localhost:5000/api/trips/${selectedTripId}`, config);
             setTrip(res.data.data);
             
-            // Reset Form
             setNewExpense({ description: '', amount: '', category: 'Food' });
         } catch (err) {
             toast.error("Failed to add expense.");
@@ -100,20 +92,17 @@ const Budgeting = () => {
 
     if (loading && !trip) return <div className="budget-loading">Loading Financial Data...</div>;
 
-    // Calculations
     const totalEstimated = trip ? trip.budget.totalCost : 0;
     const totalActual = trip ? trip.budget.expenses.reduce((acc, curr) => acc + curr.amount, 0) : 0;
     const difference = totalEstimated - totalActual;
     const isUnderBudget = difference >= 0;
     
-    // Logic: Is this trip editable?
     const isEditable = trip && trip.status === 'planning';
 
     return (
         <div className="budget-wrapper">
             <ToastContainer position="top-right" theme="colored" />
             
-            {/* Header Section */}
             <div className="budget-header-section">
                 <div className="budget-title-block">
                     <h2><DollarSign className="budget-icon-title" /> Budget Manager</h2>
@@ -135,7 +124,6 @@ const Budgeting = () => {
 
             {trip ? (
                 <>
-                    {/* Status Banner */}
                     <div className={`budget-status-banner ${trip.status}`}>
                         <div className="budget-status-content">
                             {trip.status === 'planning' ? (
@@ -149,7 +137,6 @@ const Budgeting = () => {
                         </span>
                     </div>
 
-                    {/* Metrics Cards */}
                     <div className="budget-metrics-grid">
                         <div className="budget-metric-card">
                             <span className="budget-metric-label">AI Estimated Budget</span>
@@ -174,10 +161,8 @@ const Budgeting = () => {
                         </div>
                     </div>
 
-                    {/* Main Dashboard Layout */}
                     <div className="budget-dashboard-layout">
                         
-                        {/* LEFT: Expense History */}
                         <div className="budget-history-panel">
                             <div className="budget-panel-header">
                                 <h3>Expense History</h3>
@@ -209,7 +194,6 @@ const Budgeting = () => {
                             </div>
                         </div>
 
-                        {/* RIGHT: Add Expense Form OR Locked State */}
                         <div className="budget-form-panel">
                             <div className="budget-panel-header">
                                 <h3>{isEditable ? 'Add New Expense' : 'Budget Locked'}</h3>
@@ -260,7 +244,6 @@ const Budgeting = () => {
                                     </button>
                                 </form>
                             ) : (
-                                /* LOCKED STATE UI */
                                 <div className="budget-locked-state">
                                     <AlertCircle size={48} className="budget-lock-icon" />
                                     <h4>Trip {trip.status === 'completed' ? 'Completed' : 'Cancelled'}</h4>

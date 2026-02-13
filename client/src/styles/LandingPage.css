@@ -14,7 +14,6 @@
     overflow-x: hidden;
 }
 
-/* --- HERO SECTION --- */
 .landing-hero-section {
     position: relative;
     height: 90vh;
@@ -22,13 +21,13 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: url('https://images.unsplash.com/photo-1488085061387-422e29b40080?q=80&w=2000') no-repeat center center/cover;
+    background: url('../assets/travel.jpg') no-repeat center center/cover;
 }
 
 .landing-hero-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.55); /* Dark overlay for readability */
+    background: rgba(0, 0, 0, 0.55); 
     z-index: 1;
 }
 
@@ -47,7 +46,6 @@
     margin-bottom: 20px;
 }
 
-/* Repeated Text Animation */
 .landing-text-animate {
     color: var(--landing-primary);
     display: inline-block;
@@ -84,7 +82,6 @@
     background: #357ABD;
 }
 
-/* --- ZIG-ZAG FEATURES --- */
 .landing-features-section {
     padding: 100px 8%;
     background-color: white;
@@ -98,7 +95,6 @@
     transition: 0.5s;
 }
 
-/* PROFESSIONAL ZIG-ZAG LOGIC: Flip every second row */
 .landing-zigzag-row:nth-child(even) {
     flex-direction: row-reverse;
 }
@@ -162,7 +158,6 @@
     color: white;
 }
 
-/* --- SCROLL ANIMATIONS --- */
 .landing-fade-in {
     opacity: 0;
     transform: translateY(50px);
@@ -174,7 +169,6 @@
     transform: translateY(0);
 }
 
-/* --- FOOTER CTA --- */
 .landing-cta-footer {
     background: var(--landing-dark);
     color: white;
@@ -196,7 +190,6 @@
     cursor: pointer;
 }
 
-/* --- RESPONSIVE DESIGN --- */
 @media (max-width: 992px) {
     .landing-hero-title { font-size: 3rem; }
     .landing-zigzag-row, .landing-zigzag-row:nth-child(even) {

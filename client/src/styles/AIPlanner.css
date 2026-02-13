@@ -1,38 +1,32 @@
-/* =========================================
-   1. GLOBAL VARIABLES & RESET
-   ========================================= */
+
 :root {
-    --ai-primary: #6366f1;       /* Indigo 500 */
-    --ai-primary-hover: #4f46e5; /* Indigo 600 */
-    --ai-bg: #f8fafc;            /* Slate 50 */
+    --ai-primary: #6366f1;      
+    --ai-primary-hover: #4f46e5; 
+    --ai-bg: #f8fafc;            
     --ai-surface: #ffffff;
-    --ai-text-main: #0f172a;     /* Slate 900 */
-    --ai-text-muted: #64748b;    /* Slate 500 */
-    --ai-border: #e2e8f0;        /* Slate 200 */
-    --ai-success: #10b981;       /* Emerald 500 */
-    --ai-danger: #ef4444;        /* Red 500 */
+    --ai-text-main: #0f172a;     
+    --ai-text-muted: #64748b;    
+    --ai-border: #e2e8f0;       
+    --ai-success: #10b981;      
+    --ai-danger: #ef4444;        
     --ai-shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
     --ai-shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
 }
 
 .planner-container {
     display: flex;
-    height: 100vh; /* Or calc(100vh - NavbarHeight) */
+    height: 100vh; 
     width: 100%;
     background-color: var(--ai-bg);
     overflow: hidden;
     font-family: 'Inter', system-ui, sans-serif;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-/* =========================================
-   2. SIDEBAR STYLING
-   ========================================= */
 .planner-sidebar {
     width: 400px;
     height: 100%;
@@ -44,7 +38,6 @@
     box-shadow: 4px 0 24px rgba(0,0,0,0.02);
 }
 
-/* Header Area */
 .planner-header {
     padding: 24px;
     border-bottom: 1px solid var(--ai-border);
@@ -73,7 +66,6 @@
     letter-spacing: -0.5px;
 }
 
-/* Search Box */
 .search-box {
     display: flex;
     align-items: center;
@@ -102,7 +94,6 @@
     outline: none;
 }
 
-/* Results List */
 .results-container {
     flex: 1;
     overflow-y: auto;
@@ -130,7 +121,6 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Place Card */
 .place-card {
     display: flex;
     gap: 12px;
@@ -197,9 +187,6 @@
     overflow: hidden;
 }
 
-/* =========================================
-   3. MAP AREA
-   ========================================= */
 .map-view {
     flex: 1;
     position: relative;
@@ -210,17 +197,13 @@
 .leaflet-container {
     width: 100%;
     height: 100%;
-    background: #e2e8f0; /* Fallback color */
+    background: #e2e8f0; 
 }
 
-/* Hide default leaflet routing container text box */
 .leaflet-routing-container {
     display: none !important;
 }
 
-/* =========================================
-   4. FLOATING DETAIL MODAL
-   ========================================= */
 .place-detail-modal {
     position: absolute;
     top: 20px;
@@ -242,7 +225,6 @@
     to { opacity: 1; transform: translateX(0); }
 }
 
-/* Detail Image */
 .detail-image-container {
     position: relative;
     height: 200px;
@@ -275,7 +257,6 @@
 
 .close-btn:hover { background: white; transform: scale(1.1); }
 
-/* Detail Content Scrollable Area */
 .detail-content {
     padding: 24px;
     overflow-y: auto;
@@ -296,7 +277,6 @@
     margin-bottom: 24px;
 }
 
-/* Action Buttons */
 .action-row { margin-bottom: 24px; }
 
 .action-btn {
@@ -318,9 +298,6 @@
 .action-btn:hover:not(:disabled) { background: #000; transform: translateY(-1px); }
 .action-btn:disabled { opacity: 0.7; cursor: not-allowed; }
 
-/* =========================================
-   5. TRIP PLANNER FORM SECTION
-   ========================================= */
 .trip-planner-section {
     border-top: 1px dashed var(--ai-border);
     padding-top: 24px;
@@ -336,7 +313,6 @@
     gap: 8px;
 }
 
-/* Form Groups */
 .form-group { margin-bottom: 16px; }
 .form-row { display: flex; gap: 12px; }
 .form-row .form-group { flex: 1; }
@@ -370,7 +346,6 @@
     background: var(--ai-surface);
 }
 
-/* Preferences Checkboxes */
 .pref-checkbox-group {
     background: var(--ai-bg);
     padding: 12px;
@@ -416,9 +391,6 @@
     flex-wrap: wrap;
 }
 
-/* =========================================
-   6. COST ESTIMATE & RESULTS
-   ========================================= */
 .estimate-btn {
     width: 100%;
     padding: 14px;
@@ -440,7 +412,6 @@
 
 .estimate-btn:disabled { opacity: 0.7; cursor: wait; }
 
-/* Result Box */
 .cost-result {
     margin-top: 24px;
     background: linear-gradient(145deg, #ffffff, #f8fafc);
@@ -479,7 +450,6 @@
     border: 1px solid #fcd34d;
 }
 
-/* Breakdown List */
 .breakdown { margin-bottom: 20px; }
 .breakdown h4 { font-size: 0.85rem; text-transform: uppercase; color: var(--ai-text-muted); margin-bottom: 10px; }
 
@@ -496,7 +466,6 @@
 .breakdown-item span:last-child { font-weight: 600; color: var(--ai-text-main); }
 .breakdown-item small { font-size: 0.75rem; color: #94a3b8; margin-left: 4px; }
 
-/* Tips */
 .travel-tips {
     background: #eff6ff;
     padding: 12px;
@@ -508,7 +477,6 @@
 .travel-tips h4 { font-size: 0.85rem; color: var(--ai-primary); margin-bottom: 4px; }
 .travel-tips p { font-size: 0.85rem; color: #1e3a8a; line-height: 1.5; margin: 0; }
 
-/* Save Button */
 .save-trip-btn {
     width: 100%;
     padding: 12px;
@@ -523,9 +491,6 @@
 
 .save-trip-btn:hover { background: #059669; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
 
-/* =========================================
-   7. RESPONSIVE
-   ========================================= */
 @media (max-width: 1024px) {
     .planner-sidebar { width: 340px; }
     .place-detail-modal { width: 360px; right: 10px; top: 10px; }

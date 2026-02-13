@@ -2,18 +2,22 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { ShieldCheck, Eye, EyeOff, Lock, Hash } from 'lucide-react';
 import '../../styles/ResetPassword.css';
 
 const ResetPassword = () => {
     const navigate = useNavigate();
     const location = useLocation();
     
-    // Get email from the navigation state (passed from ForgotPassword.jsx)
-    const emailFromState = location.state?.email || "";
+    const emailFromState = location.state?.email || "your email";
 
     const [otp, setOtp] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    
     const [loading, setLoading] = useState(false);
 
     const handleReset = async (e) => {
@@ -37,7 +41,7 @@ const ResetPassword = () => {
             });
 
             if (response.data.success) {
-                toast.success("Password Reset Successful! Redirecting to login...");
+                toast.success("Security Updated! Redirecting to login...");
                 setTimeout(() => navigate('/user-login'), 2500);
             }
         } catch (error) {
@@ -52,53 +56,73 @@ const ResetPassword = () => {
             <ToastContainer theme="colored" position="top-center" />
             
             <div className="reset-pw-card">
-                {/* Security Shield Icon */}
                 <div className="reset-pw-icon-box">
-                    <div className="reset-pw-shield">🛡️</div>
+                    <ShieldCheck size={40} color="#4A90E2" strokeWidth={1.5} />
                 </div>
 
                 <div className="reset-pw-header">
                     <h2>Secure Reset</h2>
-                    <p>Enter the 6-digit code sent to <br /><strong>{emailFromState}</strong></p>
+                    <p>We sent a 6-digit verification code to <br /><strong>{emailFromState}</strong></p>
                 </div>
 
                 <form onSubmit={handleReset} className="reset-pw-form">
-                    {/* OTP Input */}
+                    
                     <div className="reset-pw-input-group">
-                        <label>6-Digit OTP</label>
-                        <input 
-                            type="text" 
-                            maxLength="6"
-                            placeholder="0 0 0 0 0 0"
-                            className="otp-input-field"
-                            value={otp}
-                            onChange={(e) => setOtp(e.target.value)}
-                            required 
-                        />
+                        <label>Verification Code</label>
+                        <div className="input-with-icon">
+                            <Hash size={18} className="input-left-icon" />
+                            <input 
+                                type="text" 
+                                maxLength="6"
+                                placeholder="000000"
+                                className="otp-input-field"
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                                required 
+                            />
+                        </div>
                     </div>
 
-                    {/* New Password Input */}
                     <div className="reset-pw-input-group">
                         <label>New Password</label>
-                        <input 
-                            type="password" 
-                            placeholder="••••••••"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            required 
-                        />
+                        <div className="input-with-icon">
+                            <Lock size={18} className="input-left-icon" />
+                            <input 
+                                type={showNewPassword ? "text" : "password"} 
+                                placeholder="••••••••"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                required 
+                            />
+                            <button 
+                                type="button" 
+                                className="eye-toggle"
+                                onClick={() => setShowNewPassword(!showNewPassword)}
+                            >
+                                {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </button>
+                        </div>
                     </div>
 
-                    {/* Confirm Password Input */}
                     <div className="reset-pw-input-group">
-                        <label>Confirm New Password</label>
-                        <input 
-                            type="password" 
-                            placeholder="••••••••"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            required 
-                        />
+                        <label>Confirm Password</label>
+                        <div className="input-with-icon">
+                            <Lock size={18} className="input-left-icon" />
+                            <input 
+                                type={showConfirmPassword ? "text" : "password"} 
+                                placeholder="••••••••"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                required 
+                            />
+                            <button 
+                                type="button" 
+                                className="eye-toggle"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            >
+                                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </button>
+                        </div>
                     </div>
 
                     <button 
@@ -106,12 +130,12 @@ const ResetPassword = () => {
                         className="reset-pw-btn" 
                         disabled={loading}
                     >
-                        {loading ? "Updating Security..." : "Reset Password"}
+                        {loading ? "Verifying Credentials..." : "Update Password"}
                     </button>
                 </form>
 
                 <div className="reset-pw-footer">
-                    <p>Didn't receive a code? <Link to="/forgot-password">Resend</Link></p>
+                    <p>Didn't receive a code? <Link to="/forgot-password">Request New Code</Link></p>
                 </div>
             </div>
         </div>

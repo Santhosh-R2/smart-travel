@@ -17,7 +17,6 @@ import { useNavigate, Link } from 'react-router-dom';
 const Navbar = () => {
     const navigate = useNavigate();
     
-    // State for Login Dropdown
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -48,7 +47,6 @@ const Navbar = () => {
             <Container maxWidth="xl">
                 <Toolbar sx={{ justifyContent: 'space-between', height: '70px' }}>
                     
-                    {/* Logo Section */}
                     <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => navigate('/')}>
                         <TravelExploreIcon sx={{ color: '#4A90E2', fontSize: '30px', mr: 1 }} />
                         <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: '-0.5px' }}>
@@ -56,14 +54,12 @@ const Navbar = () => {
                         </Typography>
                     </Box>
 
-                    {/* Navigation Links */}
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 3 }}>
                         <Button component={Link} to="/" sx={{ color: '#475569', fontWeight: 600, textTransform: 'none' }}>Home</Button>
                         <Button component={Link} to="/about" sx={{ color: '#475569', fontWeight: 600, textTransform: 'none' }}>About</Button>
                         <Button component={Link} to="/contact" sx={{ color: '#475569', fontWeight: 600, textTransform: 'none' }}>Contact</Button>
                     </Box>
 
-                    {/* Login Action Area */}
                     <Box>
                         <Button
                             id="login-button"
@@ -86,7 +82,6 @@ const Navbar = () => {
                             Login
                         </Button>
                         
-                        {/* Classy Dropdown Menu */}
                         <Menu
                             id="login-menu"
                             anchorEl={anchorEl}

@@ -1,5 +1,4 @@
-// POI Controller
-// Point of Interest logic
+
 
 exports.getPOIs = async (req, res) => {
     res.send('Get POIs');

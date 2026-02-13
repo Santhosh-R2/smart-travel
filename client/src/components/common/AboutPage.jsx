@@ -21,7 +21,6 @@ const AboutPage = () => {
     return (
         <div className="about-main-container">
             
-            {/* HERO SECTION */}
             <header className="about-hero-section">
                 <div className="about-hero-content about-fade-in">
                     <h1 className="about-hero-title">We are Redefining <br /> <span>The Modern Journey.</span></h1>
@@ -29,7 +28,6 @@ const AboutPage = () => {
                 </div>
             </header>
 
-            {/* OUR MISSION: IMAGE & TEXT */}
             <section className="about-mission-section">
                 <div className="about-mission-row about-fade-in">
                     <div className="about-mission-image">
@@ -50,7 +48,6 @@ const AboutPage = () => {
                 </div>
             </section>
 
-            {/* TECHNOLOGY PILLARS: 3 GRID STYLE */}
             <section className="about-pillars-section">
                 <div className="about-pillars-header about-fade-in">
                     <h2 className="about-section-h2">Our Three Pillars</h2>
@@ -74,7 +71,6 @@ const AboutPage = () => {
                 </div>
             </section>
 
-            {/* IMPACT SECTION: TEXT & IMAGE REVERSED */}
             <section className="about-impact-section">
                 <div className="about-mission-row about-reverse about-fade-in">
                     <div className="about-mission-image">

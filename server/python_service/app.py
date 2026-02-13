@@ -10,14 +10,12 @@ import random
 import sys
 import re
 
-# Fix Windows console encoding
 if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 app = Flask(__name__)
 CORS(app)
 
-# MongoDB Connection (only for chat history & trips)
 MONGO_URI = os.getenv('MONGO_URI', 'mongodb://localhost:27017/smart-travel')
 client = MongoClient(MONGO_URI)
 parsed = urlparse(MONGO_URI)
@@ -28,7 +26,6 @@ print(f"Connected to MongoDB: {db_name}")
 trips_collection = db['trips']
 chats_collection = db['chats']
 
-# ========== WIKIPEDIA API ==========
 
 WIKI_HEADERS = {'User-Agent': 'SmartTravelBot/1.0 (educational project)'}
 
@@ -52,7 +49,6 @@ def wiki_search(query, limit=3):
 def wiki_summary(title, msg_lower=""):
     """Get summarized content + high-quality image using Action API."""
     try:
-        # 1. Fetch content and image in one call
         params = {
             "action": "query",
             "format": "json",
@@ -61,7 +57,7 @@ def wiki_summary(title, msg_lower=""):
             "explaintext": 1,
             "exlimit": 1,
             "piprop": "thumbnail",
-            "pithumbsize": 1000  # High quality
+            "pithumbsize": 1000 
         }
         resp = requests.get("https://en.wikipedia.org/w/api.php", params=params, headers=WIKI_HEADERS, timeout=10)
         data = resp.json()
@@ -80,7 +76,6 @@ def wiki_summary(title, msg_lower=""):
         if not full_extract:
             return None, None, None
 
-        # 2. SMART SUMMARIZATION
         sections = re.split(r'\n(==+ [^=]+ ==+)\n', full_extract)
         summary_parts = []
         intro = sections[0].strip()
@@ -108,7 +103,6 @@ def wiki_summary(title, msg_lower=""):
         if len(final_summary) > 2800:
             final_summary = final_summary[:2797] + "..."
 
-        # 3. Get Desktop Page URL
         page_url = f"https://en.wikipedia.org/?curid={page_id}" if page_id and page_id != "-1" else None
             
         return final_summary, image, page_url
@@ -127,7 +121,6 @@ def wiki_get_best(queries, msg_lower=""):
                 return extract, image, page_url, title
     return None, None, None, None
 
-# ========== LOCATION & INTENT DETECTION ==========
 
 LOCATION_KEYWORDS = {
     'kerala': 'Kerala', 'goa': 'Goa', 'rajasthan': 'Rajasthan', 'kashmir': 'Kashmir',
@@ -160,7 +153,6 @@ GREETING_RESPONSES = [
 
 
 def detect_location(message):
-    # Remove spaces for easier matching (e.g., "tamilnadu" matches "Tamil Nadu")
     msg_clean = message.lower().replace(" ", "")
     for keyword, location in LOCATION_KEYWORDS.items():
         if keyword.lower().replace(" ", "") in msg_clean:
@@ -179,34 +171,27 @@ def build_wiki_queries(msg_lower, location):
     """Build smart Wikipedia search queries based on what the user is asking."""
     queries = []
     
-    # Food queries
     if any(w in msg_lower for w in ['food', 'cuisine', 'dish', 'eat', 'restaurant', 'street food']):
         queries = [f"{location} cuisine", f"Cuisine of {location}", f"Food of {location}"]
         topic = "Cuisine"
-    # Culture queries
     elif any(w in msg_lower for w in ['culture', 'tradition', 'dance', 'festival', 'art', 'music']):
         queries = [f"Culture of {location}", f"{location} culture", f"{location} traditions"]
         topic = "Culture"
-    # History queries
     elif any(w in msg_lower for w in ['history', 'historical', 'ancient', 'heritage', 'old']):
         queries = [f"History of {location}", f"{location} history"]
         topic = "History"
-    # Tourism / places to visit
     elif any(w in msg_lower for w in ['visit', 'places', 'tourist', 'attraction', 'see', 'explore', 'suggest', 'recommend', 'trip', 'travel', 'tour', 'plan']):
         queries = [f"Tourism in {location}", f"{location} tourism", f"{location} tourist attractions"]
         topic = "Tourism"
-    # "Tell me about" / "What is" / general
     elif any(w in msg_lower for w in ['about', 'what is', 'tell me', 'describe', 'know', 'famous']):
         queries = [location, f"{location} India", f"Tourism in {location}"]
         topic = "About"
-    # Default: just search the location
     else:
         queries = [f"Tourism in {location}", location]
         topic = "About"
     
     return queries, topic
 
-# ========== ROUTES ==========
 
 @app.route('/health', methods=['GET'])
 def health_check():
@@ -254,7 +239,6 @@ def chat():
     final_image = None
     final_suggestions = []
 
-    # 1. User Trips (from DB - only personal data)
     if any(x in msg_lower for x in ['my trip', 'my plan', 'upcoming']):
         if not user_id:
             final_text = "Please login to see your trips!"
@@ -269,9 +253,7 @@ def chat():
             except:
                 final_text = "Error fetching trips. Please try again."
 
-    # 2. Wikipedia-powered answers (PRIORITY if location detected)
     elif location:
-        # Build smart queries based on what the user is asking about
         queries, topic = build_wiki_queries(msg_lower, location)
         extract, image, page_url, found_title = wiki_get_best(queries, msg_lower)
         
@@ -281,25 +263,19 @@ def chat():
         else:
             final_text = f"I couldn't fetch information about {location} right now. Please check your internet connection and try again."
 
-    # 3. Greetings (Only if no location/trip intent)
     elif any(re.search(rf'\b{re.escape(w)}\b', msg_lower) for w in GREETING_WORDS) and len(user_message.split()) <= 4:
         final_text = random.choice(GREETING_RESPONSES)
 
-    # 4. Thanks
     elif any(re.search(rf'\b{re.escape(w)}\b', msg_lower) for w in THANKS_WORDS):
         final_text = "You're welcome! How else can I help you?"
 
-    # 5. Bye
     elif any(re.search(rf'\b{re.escape(w)}\b', msg_lower) for w in BYE_WORDS) and len(user_message.split()) <= 4:
         final_text = "Goodbye! Happy travels!"
 
-    # 6. Travel Tips
     elif handle_tips(user_message):
         final_text = handle_tips(user_message)
     
-    # 7. Fallback Wikipedia Search (for general knowledge queries without explicit location)
     else:
-        # Try searching Wikipedia directly with the user's query
         fallback_queries = [user_message]
         if any(w in msg_lower for w in ['food', 'cuisine', 'dish']): fallback_queries.insert(0, f"{user_message} cuisine")
         elif any(w in msg_lower for w in ['culture', 'tradition']): fallback_queries.insert(0, f"{user_message} culture")
@@ -312,7 +288,6 @@ def chat():
             final_text = f"**{found_title}**\n\n{extract}"
             final_image = image
         else:
-            # Ultimate fallback - helpful guide
             final_text = (
                 "I'm your AI Travel Assistant! I fetch real information from Wikipedia.\n\n"
                 "**Try asking:**\n"
@@ -327,7 +302,6 @@ def chat():
                 "- 'Budget travel tips'"
             )
 
-    # Save to DB (chat history only)
     if user_id:
         try:
             now = datetime.now(timezone.utc)

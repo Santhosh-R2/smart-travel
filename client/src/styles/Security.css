@@ -11,7 +11,6 @@
     --security-danger-border: #fecaca;
 }
 
-/* Layout */
 .security-container {
     padding: 30px 40px;
     max-width: 1200px;
@@ -25,7 +24,6 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Header */
 .security-header { margin-bottom: 30px; }
 .security-title {
     font-size: 2rem;
@@ -39,14 +37,12 @@
     color: var(--security-text-muted);
 }
 
-/* Grid System */
 .security-grid {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
     gap: 30px;
 }
 
-/* Cards */
 .security-card {
     background: var(--security-surface);
     border-radius: 20px;
@@ -83,7 +79,6 @@
 .security-icon-box.blue { background: #e0e7ff; color: var(--security-primary); }
 .security-icon-box.red { background: #fee2e2; color: var(--security-danger); }
 
-/* --- LEFT: PASSWORD FORM --- */
 .security-form {
     display: flex;
     flex-direction: column;
@@ -156,7 +151,6 @@
     cursor: not-allowed;
 }
 
-/* --- RIGHT: SOS SECTION --- */
 .security-sos-box {
     background: var(--security-danger-light);
     border: 1px solid var(--security-danger-border);
@@ -211,7 +205,6 @@
     100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
 }
 
-/* --- HELPLINES GRID --- */
 .security-section-title {
     font-size: 0.95rem;
     text-transform: uppercase;
@@ -275,7 +268,6 @@
     color: var(--security-text-main);
 }
 
-/* Responsive */
 @media (max-width: 900px) {
     .security-grid {
         grid-template-columns: 1fr;

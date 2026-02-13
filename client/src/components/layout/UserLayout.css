@@ -10,7 +10,6 @@
     --navbar-h: 80px;
 }
 
-/* 1. MAIN WRAPPER: Takes full screen, no window scroll */
 .stp-wrapper {
     display: flex;
     height: 100vh;
@@ -20,17 +19,16 @@
     overflow: hidden;
 }
 
-/* --- SIDEBAR STYLE --- */
 .stp-sidebar {
     width: var(--sidebar-w);
     background: var(--side-bg);
-    height: 100%; /* Full height of wrapper */
+    height: 100%; 
     display: flex;
     flex-direction: column;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     color: white;
     z-index: 1000;
-    flex-shrink: 0; /* Prevent shrinking */
+    flex-shrink: 0; 
 }
 
 .stp-sidebar.collapsed { width: var(--sidebar-c); }
@@ -59,7 +57,6 @@
 .sidebar-toggle:hover { background: var(--accent); }
 
 .sidebar-nav { flex: 1; padding: 15px; overflow-y: auto; }
-/* Hide scrollbar in sidebar */
 .sidebar-nav::-webkit-scrollbar { width: 4px; }
 .sidebar-nav::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
 
@@ -80,17 +77,15 @@
     padding: 12px; cursor: pointer; border-radius: 10px; white-space: nowrap;
 }
 
-/* --- MAIN SECTION (RIGHT SIDE) --- */
 .stp-main {
     flex: 1;
     display: flex;
     flex-direction: column;
     height: 100%;
-    overflow: hidden; /* Prevents layout break */
+    overflow: hidden; 
     position: relative;
 }
 
-/* 2. FIXED NAVBAR */
 .stp-navbar {
     height: var(--navbar-h);
     display: flex;
@@ -102,13 +97,12 @@
     border-bottom: 1px solid #e2e8f0;
     width: 100%;
     z-index: 900;
-    flex-shrink: 0; /* Keeps height fixed */
+    flex-shrink: 0; 
 }
 
 .nav-breadcrumb { display: flex; align-items: center; gap: 10px; color: var(--text-light); font-size: 0.85rem; }
 .active-page { color: var(--text-dark); font-weight: 700; }
 
-/* User Action Area */
 .nav-user-profile {
     display: flex;
     align-items: center;
@@ -136,22 +130,19 @@
     background: #22c55e; border: 2px solid white; border-radius: 50%;
 }
 
-/* 3. SCROLLABLE CONTENT AREA */
 .stp-content {
     flex: 1;
-    overflow-y: auto; /* Only this part scrolls */
+    overflow-y: auto; 
     overflow-x: hidden;
     padding: 40px;
     scroll-behavior: smooth;
 }
 
-/* Custom Scrollbar for Content */
 .stp-content::-webkit-scrollbar { width: 8px; }
 .stp-content::-webkit-scrollbar-track { background: transparent; }
 .stp-content::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 .stp-content::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-/* --- MODAL STYLE --- */
 .modal-overlay {
     position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
     backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 9999;
@@ -174,7 +165,6 @@
     to { transform: scale(1); opacity: 1; }
 }
 
-/* Mobile Responsive */
 @media (max-width: 768px) {
     .nav-breadcrumb, .user-details { display: none; }
     .stp-navbar { padding: 0 20px; }

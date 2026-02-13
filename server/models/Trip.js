@@ -5,7 +5,7 @@ const itineraryItemSchema = new mongoose.Schema({
     startTime: Date,
     endTime: Date,
     notes: String,
-    order: Number // Sequence determined by AI Engine
+    order: Number 
 });
 
 const daySchema = new mongoose.Schema({
@@ -21,14 +21,14 @@ const tripSchema = new mongoose.Schema({
     destination: {
         city: String,
         country: String,
-        image: String // URL of the place image
+        image: String 
     },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
-    transportMode: { type: String }, // e.g., 'Car', 'Train'
+    transportMode: { type: String }, 
     passengerCount: { type: Number, default: 1 },
     isHoliday: { type: Boolean, default: false },
-    distance: { type: Number }, // Distance in km
+    distance: { type: Number }, 
     preferences: {
         accommodation: { type: Boolean, default: true },
         meals: {
@@ -38,30 +38,28 @@ const tripSchema = new mongoose.Schema({
         }
     },
     budget: {
-        totalCost: { type: Number, default: 0 }, // AI Estimated Total
+        totalCost: { type: Number, default: 0 }, 
         currency: { type: String, default: 'INR' },
-        breakdown: { // AI Generated Breakdown
+        breakdown: { 
             transport: { type: Number, default: 0 },
             food: { type: Number, default: 0 },
             accommodation: { type: Number, default: 0 },
             miscellaneous: { type: Number, default: 0 }
         },
-        tips: { type: String }, // AI provided tips
-        expenses: [{ // Manual expenses tracking
+        tips: { type: String },
+        expenses: [{ 
             description: String,
             amount: Number,
             category: { type: String, enum: ['Food', 'Transport', 'Accommodation', 'Miscellaneous', 'Fuel', 'Tickets'] },
             date: { type: Date, default: Date.now }
         }]
     },
-    // The core AI-generated plan
     itinerary: [daySchema],
 
-    // Blog Section for Completed Trips
     blog: {
         title: String,
         content: String,
-        photos: [String], // URLs
+        photos: [String], 
         isVisibleToOthers: { type: Boolean, default: false },
         publishedDate: Date
     },

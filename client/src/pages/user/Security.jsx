@@ -32,7 +32,6 @@ const Security = () => {
             const token = localStorage.getItem('userToken');
             const config = { headers: { Authorization: `Bearer ${token}` } };
 
-            // Correct endpoint for password change
             await axios.put('http://localhost:5000/api/auth/changepassword', {
                 currentPassword: passwords.currentPassword,
                 newPassword: passwords.newPassword
@@ -47,10 +46,7 @@ const Security = () => {
         }
     };
 
-    const handleSOS = () => {
-        // In a real app, this would trigger an SMS API or native share
-        toast.error("SOS Signal Simulated: Location sent to emergency contacts.");
-    };
+  
 
     return (
         <div className="security-container">
@@ -63,7 +59,6 @@ const Security = () => {
 
             <div className="security-grid">
 
-                {/* LEFT: CHANGE PASSWORD */}
                 <div className="security-card">
                     <div className="security-card-header">
                         <div className="security-icon-box blue">
@@ -126,7 +121,6 @@ const Security = () => {
                     </form>
                 </div>
 
-                {/* RIGHT: TRAVEL SAFETY & HELPLINES */}
                 <div className="security-card">
                     <div className="security-card-header">
                         <div className="security-icon-box red">
@@ -135,15 +129,7 @@ const Security = () => {
                         <h3>Travel Safety & SOS</h3>
                     </div>
 
-                    <div className="security-sos-box">
-                        <div className="security-sos-content">
-                            <h4><AlertTriangle size={20} /> Emergency SOS</h4>
-                            <p>Instantly alert local authorities and your trusted contacts with your GPS location.</p>
-                        </div>
-                        <button className="security-btn-sos" onClick={handleSOS}>
-                            ACTIVATE SOS
-                        </button>
-                    </div>
+                 
 
                     <div className="security-helplines">
                         <h4 className="security-section-title">Emergency Helplines (India)</h4>

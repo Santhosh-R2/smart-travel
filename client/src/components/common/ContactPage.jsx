@@ -36,7 +36,6 @@ const ContactPage = () => {
     return (
         <div className="contact-main-wrapper">
             
-            {/* HERO HEADER */}
             <header className="contact-hero-section">
                 <div className="contact-hero-content contact-fade-in">
                     <h1 className="contact-hero-title">Get In <span>Touch</span></h1>
@@ -47,12 +46,10 @@ const ContactPage = () => {
                 </div>
             </header>
 
-            {/* CONTACT GRID SECTION */}
             <section className="contact-grid-section">
                 <div className="contact-container">
                     <div className="contact-flex-box contact-fade-in">
                         
-                        {/* LEFT SIDE: INFO */}
                         <div className="contact-info-panel">
                             <h2 className="contact-panel-h2">Contact Information</h2>
                             <p className="contact-panel-p">Fill out the form and our team will get back to you within 24 hours.</p>
@@ -91,7 +88,6 @@ const ContactPage = () => {
                             </div>
                         </div>
 
-                        {/* RIGHT SIDE: FORM */}
                         <div className="contact-form-panel">
                             <form onSubmit={handleSubmit} className="contact-actual-form">
                                 <div className="contact-form-row">
@@ -123,7 +119,6 @@ const ContactPage = () => {
                 </div>
             </section>
 
-            {/* HELPCENTER STRIP */}
             <section className="contact-help-strip contact-fade-in">
                 <div className="contact-help-card">
                     <h3>Technical Support</h3>

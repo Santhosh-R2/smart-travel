@@ -2,12 +2,18 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import { 
+    User, Mail, Lock, Eye, EyeOff, Image as ImageIcon, 
+    CheckCircle2, Sparkles, ArrowRight 
+} from 'lucide-react';
 import '../../styles/UserRegister.css';
 
 const UserRegister = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [imagePreview, setImagePreview] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     
     const [formData, setFormData] = useState({
         name: '',
@@ -18,12 +24,23 @@ const UserRegister = () => {
         interests: []
     });
 
-    // Convert Image to Base64
+    // Validations
+    const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const validatePassword = (pass) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(pass);
+
+    // Filter Name Input (Only Alphabets)
+    const handleNameChange = (e) => {
+        const val = e.target.value;
+        if (val === "" || /^[A-Za-z\s]+$/.test(val)) {
+            setFormData({ ...formData, name: val });
+        }
+    };
+
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             if (file.size > 2 * 1024 * 1024) {
-                return toast.error("File too large. Max 2MB.");
+                return toast.error("Image must be less than 2MB");
             }
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -34,20 +51,31 @@ const UserRegister = () => {
         }
     };
 
-    // Handle Checkbox Interests
     const handleInterestChange = (interest) => {
-        const updatedInterests = [...formData.interests];
-        if (updatedInterests.includes(interest)) {
-            const index = updatedInterests.indexOf(interest);
-            updatedInterests.splice(index, 1);
-        } else {
-            updatedInterests.push(interest);
-        }
-        setFormData({ ...formData, interests: updatedInterests });
+        const updated = formData.interests.includes(interest)
+            ? formData.interests.filter(i => i !== interest)
+            : [...formData.interests, interest];
+        setFormData({ ...formData, interests: updated });
     };
 
     const handleRegister = async (e) => {
         e.preventDefault();
+
+        // 1. Image Validation
+        if (!formData.profileImage) return toast.warn("Please upload a profile image");
+        
+        // 2. Name Validation
+        if (formData.name.trim().length < 3) return toast.warn("Please enter a valid full name");
+
+        // 3. Email Validation
+        if (!validateEmail(formData.email)) return toast.warn("Please enter a valid email address");
+
+        // 4. Password Strength Validation
+        if (!validatePassword(formData.password)) {
+            return toast.error("Password must be 8+ chars, include Uppercase, Lowercase, Number and Special Character");
+        }
+
+        // 5. Password Match
         if (formData.password !== formData.confirmPassword) {
             return toast.error("Passwords do not match!");
         }
@@ -59,17 +87,15 @@ const UserRegister = () => {
                 email: formData.email,
                 password: formData.password,
                 profileImage: formData.profileImage,
-                preferences: {
-                    interests: formData.interests
-                }
+                preferences: { interests: formData.interests }
             });
 
             if (response.data.success) {
-                toast.success("Account Created Successfully! Redirecting...");
+                toast.success("Welcome Aboard! Redirecting to login...");
                 setTimeout(() => navigate('/user-login'), 2000);
             }
         } catch (error) {
-            toast.error(error.response?.data?.error || "Registration Failed");
+            toast.error(error.response?.data?.error || "Registration failed");
         } finally {
             setLoading(false);
         }
@@ -77,70 +103,111 @@ const UserRegister = () => {
 
     return (
         <div className="register-main-wrapper">
-            <ToastContainer theme="colored" />
+            <ToastContainer theme="colored" position="top-right" />
             
             <div className="register-container">
-                {/* LEFT SIDE: Info & Branding */}
                 <div className="register-info-panel">
                     <div className="register-branding">
+                        <div className="brand-badge"><Sparkles size={16} /> AI Travel</div>
                         <h1 className="register-logo">STP <span>AI</span></h1>
-                        <h2>Start Your Smart Journey.</h2>
-                        <p>Join 50,000+ travelers using AI to plan their perfect trips.</p>
+                        <h2>Your global journey starts here.</h2>
                     </div>
-                    <div className="register-features-list">
-                        <div className="r-feature"><span>✔</span> AI Route Optimization</div>
-                        <div className="r-feature"><span>✔</span> Real-time Budget Tracking</div>
-                        <div className="r-feature"><span>✔</span> Global POI Discovery</div>
+                    <div className="register-features">
+                        <div className="r-feat"><CheckCircle2 size={18} /> Intelligent Route Mapping</div>
+                        <div className="r-feat"><CheckCircle2 size={18} /> Personalized Local Gems</div>
+                        <div className="r-feat"><CheckCircle2 size={18} /> Collaborative Itineraries</div>
                     </div>
                 </div>
 
-                {/* RIGHT SIDE: Register Form */}
                 <div className="register-form-panel">
                     <form onSubmit={handleRegister} className="register-form">
                         <div className="register-header">
                             <h3>Create Account</h3>
-                            <p>Enter your details to get started</p>
+                            <p>Join our community of global explorers</p>
                         </div>
 
-                        {/* Profile Image Upload (Base64) */}
+                        {/* Avatar Upload */}
                         <div className="register-avatar-section">
-                            <div className="avatar-preview">
-                                {imagePreview ? <img src={imagePreview} alt="Preview" /> : <span>+</span>}
+                            <div className={`avatar-preview ${!formData.profileImage ? 'empty' : ''}`}>
+                                {imagePreview ? <img src={imagePreview} alt="Preview" /> : <ImageIcon size={30} color="#94a3b8" />}
                                 <input type="file" accept="image/*" onChange={handleImageChange} />
                             </div>
-                            <label>Upload Profile Picture</label>
+                            <label>Upload Profile Photo *</label>
                         </div>
 
-                        <div className="register-row">
+                        <div className="register-grid">
+                            {/* Name */}
                             <div className="register-group">
                                 <label>Full Name</label>
-                                <input type="text" placeholder="John Doe" required onChange={(e) => setFormData({...formData, name: e.target.value})} />
+                                <div className="input-icon-box">
+                                    <User size={18} className="i-icon" />
+                                    <input 
+                                        type="text" 
+                                        placeholder="Letters only" 
+                                        value={formData.name} 
+                                        onChange={handleNameChange} 
+                                        required 
+                                    />
+                                </div>
                             </div>
+
+                            {/* Email */}
                             <div className="register-group">
                                 <label>Email Address</label>
-                                <input type="email" placeholder="john@example.com" required onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                                <div className="input-icon-box">
+                                    <Mail size={18} className="i-icon" />
+                                    <input 
+                                        type="email" 
+                                        placeholder="you@example.com" 
+                                        value={formData.email} 
+                                        onChange={(e) => setFormData({...formData, email: e.target.value})} 
+                                        required 
+                                    />
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="register-row">
+                            {/* Password */}
                             <div className="register-group">
                                 <label>Password</label>
-                                <input type="password" placeholder="••••••••" required onChange={(e) => setFormData({...formData, password: e.target.value})} />
+                                <div className="input-icon-box">
+                                    <Lock size={18} className="i-icon" />
+                                    <input 
+                                        type={showPassword ? "text" : "password"} 
+                                        placeholder="Strong Password" 
+                                        onChange={(e) => setFormData({...formData, password: e.target.value})} 
+                                        required 
+                                    />
+                                    <button type="button" className="eye-btn" onClick={() => setShowPassword(!showPassword)}>
+                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
                             </div>
+
+                            {/* Confirm Password */}
                             <div className="register-group">
                                 <label>Confirm Password</label>
-                                <input type="password" placeholder="••••••••" required onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})} />
+                                <div className="input-icon-box">
+                                    <Lock size={18} className="i-icon" />
+                                    <input 
+                                        type={showConfirmPassword ? "text" : "password"} 
+                                        placeholder="Repeat Password" 
+                                        onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})} 
+                                        required 
+                                    />
+                                    <button type="button" className="eye-btn" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Interests Select */}
                         <div className="register-interests">
-                            <label>Travel Interests</label>
-                            <div className="interests-grid">
-                                {['nature', 'culture', 'food', 'adventure', 'nightlife'].map(item => (
+                            <label>Travel Preferences</label>
+                            <div className="interests-flex">
+                                {['Nature', 'Culture', 'Food', 'Adventure', 'Relax'].map(item => (
                                     <div 
                                         key={item} 
-                                        className={`interest-chip ${formData.interests.includes(item) ? 'active' : ''}`}
+                                        className={`chip ${formData.interests.includes(item) ? 'active' : ''}`}
                                         onClick={() => handleInterestChange(item)}
                                     >
                                         {item}
@@ -149,12 +216,12 @@ const UserRegister = () => {
                             </div>
                         </div>
 
-                        <button type="submit" className="register-submit-btn" disabled={loading}>
-                            {loading ? "Processing..." : "Create Account"}
+                        <button type="submit" className="register-btn" disabled={loading}>
+                            {loading ? "Creating Account..." : "Sign Up Now"} <ArrowRight size={18} />
                         </button>
 
-                        <p className="register-footer-text">
-                            Already have an account? <Link to="/user-login">Sign In</Link>
+                        <p className="register-link">
+                            Already a member? <Link to="/user-login">Log In</Link>
                         </p>
                     </form>
                 </div>

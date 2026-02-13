@@ -19,7 +19,6 @@ const ForgotPassword = () => {
 
             if (response.data.success) {
                 toast.success("OTP sent to your email!");
-                // Move to Reset Password page and pass email along
                 setTimeout(() => {
                     navigate('/reset-password', { state: { email } });
                 }, 2000);
@@ -36,7 +35,6 @@ const ForgotPassword = () => {
             <ToastContainer theme="colored" position="top-center" />
             
             <div className="forgot-pw-card">
-                {/* Security Icon Animation */}
                 <div className="forgot-pw-icon-area">
                     <div className="forgot-pw-pulse"></div>
                     <div className="forgot-pw-icon">✉</div>
@@ -69,11 +67,10 @@ const ForgotPassword = () => {
                 </form>
 
                 <div className="forgot-pw-footer">
-                    <Link to="/login">← Back to Login</Link>
+                    <Link to="/user-login">← Back to Login</Link>
                 </div>
             </div>
 
-            {/* Background Decorative Elements */}
             <div className="forgot-bg-circle c-top"></div>
             <div className="forgot-bg-circle c-bottom"></div>
         </div>

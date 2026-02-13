@@ -1,6 +1,5 @@
 const Trip = require('../models/Trip');
 
-// Create Trip
 exports.createTrip = async (req, res, next) => {
     try {
         req.body.owner = req.user.id;
@@ -9,7 +8,6 @@ exports.createTrip = async (req, res, next) => {
     } catch (error) { next(error); }
 };
 
-// Get User Trips
 exports.getUserTrips = async (req, res, next) => {
     try {
         const trips = await Trip.find({ owner: req.user.id }).sort({ startDate: -1 });
@@ -17,13 +15,11 @@ exports.getUserTrips = async (req, res, next) => {
     } catch (error) { next(error); }
 };
 
-// Get Trip By ID
 exports.getTripById = async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.id);
         if (!trip) return res.status(404).json({ success: false, error: 'Trip not found' });
 
-        // Auth check (Owner or Public)
         if (trip.owner.toString() !== req.user.id && !trip.isPublic && !trip.blog?.isVisibleToOthers) {
             return res.status(401).json({ success: false, error: 'Not authorized' });
         }
@@ -31,7 +27,6 @@ exports.getTripById = async (req, res, next) => {
     } catch (error) { next(error); }
 };
 
-// Update Status
 exports.updateTripStatus = async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.id);
@@ -44,7 +39,6 @@ exports.updateTripStatus = async (req, res, next) => {
     } catch (error) { next(error); }
 };
 
-// Add Expense
 exports.addTripExpense = async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.id);
@@ -56,7 +50,6 @@ exports.addTripExpense = async (req, res, next) => {
     } catch (error) { next(error); }
 };
 
-// Update Blog
 exports.updateTripBlog = async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.id);
@@ -68,25 +61,51 @@ exports.updateTripBlog = async (req, res, next) => {
     } catch (error) { next(error); }
 };
 
-// Get Public Blogs
 exports.getPublicBlogs = async (req, res, next) => {
     try {
         const blogs = await Trip.find({ 'blog.isVisibleToOthers': true })
             .select('title blog owner destination startDate')
-            .populate('owner', 'name email')
+            .populate('owner', 'name email profileImage')
             .sort({ 'blog.publishedDate': -1 });
         res.status(200).json({ success: true, count: blogs.length, data: blogs });
     } catch (error) { next(error); }
 };
 
-// Delete Trip
+exports.getBlogsByCity = async (req, res, next) => {
+    try {
+        const searchTerm = req.params.city;
+        const regex = new RegExp(searchTerm, 'i');
+
+        const blogs = await Trip.find({
+            $or: [
+                { 'destination.city': regex },
+                { 'title': regex },
+                { 'blog.title': regex }
+            ],
+            'blog.isVisibleToOthers': true,
+            status: 'completed'
+        })
+            .select('title blog owner destination startDate')
+            .populate('owner', 'name profileImage')
+            .sort({ 'blog.publishedDate': -1 });
+
+        res.status(200).json({
+            success: true,
+            count: blogs.length,
+            data: blogs
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 exports.deleteTrip = async (req, res, next) => {
     try {
         const trip = await Trip.findById(req.params.id);
         if (!trip) return res.status(404).json({ success: false, error: 'Trip not found' });
         if (trip.owner.toString() !== req.user.id) return res.status(401).json({ success: false, error: 'Not authorized' });
 
-        await Trip.deleteOne({ _id: req.params.id }); // Fixed: remove() is deprecated
+        await Trip.deleteOne({ _id: req.params.id }); 
         res.status(200).json({ success: true, data: {} });
     } catch (error) { next(error); }
 };

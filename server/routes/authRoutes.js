@@ -15,13 +15,10 @@ const {
     logoutAllDevices
 } = require('../controllers/authController');
 
-// Import Middleware
-// protect: Ensures the user is logged in
+
 const { protect } = require('../middleware/authMiddleware');
 
-// ==========================================
-// PUBLIC ROUTES (No Token Required)
-// ==========================================
+
 
 /**
  * @route   POST /api/auth/register
@@ -59,9 +56,7 @@ router.put('/resetpassword', resetPassword);
  */
 router.post('/verify2fa', verifyTwoFactor);
 
-// ==========================================
-// PRIVATE ROUTES (JWT Token Required)
-// ==========================================
+
 
 /**
  * @route   PUT /api/auth/toggle2fa

@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     },
     profileImage: {
         type: String,
-        default: 'default-avatar.png' // URL to Cloudinary or S3 bucket
+        default: 'default-avatar.png' 
     },
     role: {
         type: String,
@@ -30,29 +30,25 @@ const userSchema = new mongoose.Schema({
     },
     otpCode: String,
     otpExpire: Date,
-    // AI Engine Data: Personalized preferences
     preferences: {
         interests: [{ type: String, enum: ['culture', 'nature', 'food', 'adventure', 'shopping', 'nightlife'] }],
         travelPace: { type: String, enum: ['relaxed', 'balanced', 'fast-paced'], default: 'balanced' },
         budgetLevel: { type: String, enum: ['budget', 'mid-range', 'luxury'], default: 'mid-range' }
     },
-    // Security Fields
     isTwoFactorEnabled: { type: Boolean, default: false },
     twoFactorCode: { type: String },
     twoFactorCodeExpires: { type: Date },
-    tokenVersion: { type: Number, default: 0 }, // For "Logout All"
+    tokenVersion: { type: Number, default: 0 }, 
     resetPasswordToken: String,
     resetPasswordExpire: Date
 }, { timestamps: true });
 
-// Encrypt password before saving
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) next();
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Method to compare password for login
 userSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
